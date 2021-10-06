@@ -1,0 +1,61 @@
+@import './pages/main-page';
+@import './pages/user-profile';
+@import './cmps/tattoo-list';
+@import './cmps/tattoo-preview';
+@import './cmps/single-preview';
+@import './cmps/app-header';
+@import './cmps/app-footer';
+@import './cmps/login-signup';
+@import './cmps/userMsg';
+@import './cmps/user-dropdown';
+@import './cmps/user-bio';
+@import './cmps/main-search';
+@import './cmps/categories';
+
+@font-face {
+  font-family: angel-raphsody;
+  src: url('../assets/fonts/AngelRhapsodyRegular-ZVGJz.ttf');
+}
+.App {
+  background-color: #282c34;
+  min-height: 88.3vh;
+  display: flex;
+  flex-direction: column;
+  // align-items: center;
+  // justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+  text-align: center;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+* {
+  box-sizing: border-box;
+}
+html {
+  scroll-behavior: smooth;
+  background-color: #282c34;
+}
+
+button {
+  cursor: pointer;
+}
+
+ul {
+  list-style: none;
+}
+
+@keyframes show-user-msg {
+  0% {
+    top: -200px;
+  }
+  20% {
+    top: 5%;
+  }
+  80% {
+    top: 5%;
+  }
+  90% {
+    top: -300px;
+  }
+}

@@ -1,0 +1,33 @@
+Issues:
+
+
+NEED TO TAKE A BREAK AND WORK ON MY JS SKILLS AND INTERVIEW SKILLS!
+- add categories! (defined by user and then used to sort/filter between tats in his list.
+- next stage: websockets!
+ * messages (general and topic specific)
+ * following users (?)
+ * number of times profile was seen
+ * private messages
+
+profile page ideas:
+- been a member since..
+- likes (?)
+- number of tattoos saved
+- profile picture (add yours or choose from sets). also add random picture option.
+- stats?
+- contact us/me (user writes his own)
+- bio ( user writes his own)
+   will include:
+ * details on user/artist
+ * contact info
+ * ...
+ * how many tattoos they have
+
+Design ideas:
+- non straight lines
+- categories: side bar with colors. on hover shows the name. add minimize    button
+
+Further ideas:
+- get images from "actual" artists and make this a website who connects between artists and clients. 
+- add the artists images and ask a user to mention if he went through with the tattoo or a similliar one.
+- add notifications on the user dropdown. red bubble tothe left of the profile image 

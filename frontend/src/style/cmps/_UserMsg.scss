@@ -1,0 +1,20 @@
+.user-msg {
+  display: none;
+  top: -500px;
+  left: 50%;
+  border: green solid 1px;
+  &.error {
+    border: red 2px solid;
+  }
+  &.show {
+    display: block;
+    position: fixed;
+    // border: solid 0.3px;
+    border-radius: 10px;
+    padding: 5px;
+    background-color: rgba(255, 255, 255, 0.794);
+    color: rgb(32, 85, 87);
+    transform: translate(-50%);
+    animation: show-user-msg 2.8s linear;
+  }
+}
