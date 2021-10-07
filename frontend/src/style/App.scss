@@ -6,9 +6,11 @@
 }
 .App {
   background-color: #282c34;
-  min-height: 88.3vh;
+  height: 100vh;
+  // min-height: 88.3vh;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   // align-items: center;
   // justify-content: center;
   font-size: calc(10px + 2vmin);
