@@ -1,0 +1,38 @@
+[
+  {
+    "topic": "music",
+    "type": "group",
+    "createdAt": "1633863306",
+    "owner": "WordChained",
+    "restrictions": ["18+", "seniorMember"],
+    "limit": { "$numberInt": "50" },
+    "description": "this is a room to talk about your favorite music!",
+    "imgUrl": "",
+    "likedByUsers": ["WordChained"],
+    "tags": ["music", "art"]
+  },
+  {
+    "topic": "food",
+    "type": "group",
+    "createdAt": "1633863360",
+    "owner": "WordChained",
+    "restrictions": ["none"],
+    "limit": { "$numberInt": "100" },
+    "description": "this is a room to talk about food and how much you love it!",
+    "imgUrl": "",
+    "likedByUsers": ["WordChained"],
+    "tags": ["food", "art", "love", "fat"]
+  },
+  {
+    "topic": "love",
+    "type": "private",
+    "createdAt": "1633863260",
+    "owner": "WordChained",
+    "restrictions": ["18+"],
+    "limit": { "$numberInt": "2" },
+    "description": "private chat between two people",
+    "imgUrl": "",
+    "likedByUsers": ["WordChained"],
+    "tags": ["love", "private"]
+  }
+]

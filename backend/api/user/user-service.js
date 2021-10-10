@@ -12,7 +12,7 @@ module.exports = {
     update,
     add,
     // likedSong,
-    // likedStation
+    // likedRoom
 }
 
 async function query() {
@@ -76,7 +76,7 @@ async function remove(userId) {
 async function update(user) {
     // const isAdmin = JSON.parse(user.isAdmin);
     // console.log(isAdmin);
-    const { username, fullname, likedStations, imgUrl } = user
+    const { username, fullname, likedRooms, imgUrl } = user
     try {
         // peek only updatable fields!
         const userToSave = {
@@ -84,7 +84,7 @@ async function update(user) {
             username,
             fullname,
             imgUrl,
-            likedStations
+            likedRooms
         }
         const collection = await dbService.getCollection('user')
         await collection.updateOne({ '_id': userToSave._id }, { $set: userToSave })
@@ -96,14 +96,14 @@ async function update(user) {
 }
 
 async function add(user) {
-    const { username, password, fullname, imgUrl, likedStations } = user
+    const { username, password, fullname, imgUrl, likedRooms } = user
     try {
         const userToAdd = {
             username,
             password,
             fullname,
             imgUrl,
-            likedStations
+            likedRooms
         }
         const collection = await dbService.getCollection('user')
         await collection.insertOne(userToAdd)

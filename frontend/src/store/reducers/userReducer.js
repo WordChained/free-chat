@@ -4,8 +4,15 @@ const INITIAL_STATE = {
   wrongEmail: null,
   isUser: false,
   ready: false
-
 }
+
+//loggedInUser:{
+// userName: String,
+//password: String,
+// fullName:String,
+//imgUrl: String,
+//likedRooms: Array of strings
+// }
 
 export function userReducer(state = INITIAL_STATE, action) {
   switch (action.type) {

@@ -1,14 +1,21 @@
-import React, { ChangeEvent, FormEvent } from 'react';
+import React, { FormEvent } from 'react';
 
 // import Select from 'react-select';
 import CreatableSelect from 'react-select/creatable';
-import makeAnimated from 'react-select/animated';
+// import makeAnimated from 'react-select/animated';
 import { ActionMeta, OnChangeValue } from 'react-select';
 
 import { useState } from 'react';
 
 export const SearchForm = () => {
-  const animatedComponents = makeAnimated();
+  interface Option {
+    value: string;
+    label: string;
+  }
+  interface keyable {
+    [key: string]: any;
+  }
+  // const animatedComponents = makeAnimated();
 
   const options: Option[] = [
     { value: 'music', label: 'Music' },
@@ -16,12 +23,7 @@ export const SearchForm = () => {
     { value: 'video games', label: 'Video Games' },
   ];
   const [showTopics, setShowTopics] = useState(false);
-  const [topics, setTopics] = useState([]);
-
-  interface Option {
-    value: string;
-    label: string;
-  }
+  const [topics, setTopics] = useState<keyable[]>([]);
 
   const handleChange = (
     newValue: OnChangeValue<Option, true>,
@@ -31,7 +33,7 @@ export const SearchForm = () => {
     console.log(`action: ${actionMeta.action}`);
     setTopics([...newValue]);
   };
-  const search = (ev: FormEvent<HTMLInputElement>) => {
+  const search = (ev: FormEvent<HTMLFormElement>) => {
     ev.preventDefault();
     //if its topics and there are no topics, dont search
     if (showTopics && !topics.length) {
@@ -40,6 +42,7 @@ export const SearchForm = () => {
       return;
     }
     console.log('topics:', topics);
+    topics.map((topic) => console.log(topic.value));
   };
 
   // const setChatType = (ev: ChangeEvent<HTMLInputElement>): string => {
@@ -79,7 +82,7 @@ export const SearchForm = () => {
             isMulti
             options={options}
             onChange={handleChange}
-            components={animatedComponents}
+            // components={animatedComponents}
           />
         )}
         <button type="submit">Search for a chat</button>

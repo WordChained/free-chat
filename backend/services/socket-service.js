@@ -1,4 +1,4 @@
-const { updateStation } = require('../api/station/station-controller');
+const { updateRoom } = require('../api/room/room-controller');
 const asyncLocalStorage = require('./als-service');
 const logger = require('./logger-service');
 
@@ -31,29 +31,29 @@ function connectSockets(http, session) {
             // emits only to sockets in the same room
             gIo.to(socket.myTopic).emit('chat addMsg', msg)
         })
-        socket.on('station watch', stationId => {
-            if (socket.stationId === stationId) return;
-            if (socket.stationId) {
-                socket.leave(socket.stationId);
+        socket.on('room watch', roomId => {
+            if (socket.roomId === roomId) return;
+            if (socket.roomId) {
+                socket.leave(socket.roomId);
             }
-            // socket.join('watching:' + stationId)
-            socket.join(stationId)
-            socket.stationId = stationId;
+            // socket.join('watching:' + roomId)
+            socket.join(roomId)
+            socket.roomId = roomId;
         })
-        socket.on('set-station-socket', stationId => {
-            logger.debug(`Setting socket.stationId = ${stationId}`)
-            socket.stationId = stationId
+        socket.on('set-room-socket', roomId => {
+            logger.debug(`Setting socket.roomId = ${roomId}`)
+            socket.roomId = roomId
         })
-        socket.on('unset-station-socket', () => {
-            delete socket.stationId
+        socket.on('unset-room-socket', () => {
+            delete socket.roomId
         })
-        socket.on('station updated', (updatedStation) => {
-            socket.to(updatedStation._id).emit("station updated", updatedStation);
+        socket.on('room updated', (updatedRoom) => {
+            socket.to(updatedRoom._id).emit("room updated", updatedRoom);
         })
 
     })
 }
-//label===stationId
+//label===roomId
 function emitTo({ type, data, label }) {
     console.log(gIo.to(label).clients((err, clients) => {
         if (err) throw err;
@@ -74,14 +74,14 @@ function emitToUser({ type, data, userId }) {
 }
 
 // Send to all sockets BUT not the current socket 
-function broadcast({ type, data, room = null, stationId }) {
-    const excludedSocket = _getStationSocket(stationId)
+function broadcast({ type, data, room = null, roomId }) {
+    const excludedSocket = _getRoomSocket(roomId)
     if (!excludedSocket) {
         logger.debug('Shouldnt happen, socket not found')
         _printSockets();
         return;
     }
-    logger.debug('broadcast to all but user: ', stationId)
+    logger.debug('broadcast to all but user: ', roomId)
     if (room) {
         excludedSocket.broadcast.to(room).emit(type, data)
     } else {
@@ -89,9 +89,9 @@ function broadcast({ type, data, room = null, stationId }) {
     }
 }
 
-function _getStationSocket(stationId) {
+function _getRoomSocket(roomId) {
     const sockets = _getAllSockets();
-    const socket = sockets.find(s => s.stationId == stationId)
+    const socket = sockets.find(s => s.roomId == roomId)
     return socket;
 }
 

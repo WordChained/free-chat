@@ -3,28 +3,25 @@ const logger = require('../services/logger-service')
 
 const config = require('../config')
 
-module.exports = {
-    getCollection
-}
 
 // Database Name
-const dbName = 'misterfy_db'
+const dbName = 'free_chat_db'
 
 var dbConn = null
 
-async function getCollection(collectionName) {
+const getCollection = async (collectionName) => {
     try {
         const db = await connect()
         const collection = await db.collection(collectionName)
         return collection
     } catch (err) {
         logger.error('Failed to get Mongo collection', err)
-        console.log('Failed to get Mongo collection', err)
+        // console.log('Failed to get Mongo collection', err)
         throw err
     }
 }
 
-async function connect() {
+const connect = async () => {
     if (dbConn) return dbConn
     try {
         const client = await MongoClient.connect(config.dbURL, { useNewUrlParser: true, useUnifiedTopology: true })
@@ -36,4 +33,8 @@ async function connect() {
         console.log('Cannot Connect to DB', err)
         throw err
     }
+}
+
+module.exports = {
+    getCollection
 }
