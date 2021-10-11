@@ -12,12 +12,12 @@ export const Rooms = () => {
 
   useEffect(() => {
     dispatch(query(filterBy.name));
+    // eslint-disable-next-line
   }, []);
 
   // const getRooms = () => {
   //   dispatch(query(filterBy));
   // };
-
   return (
     <div>
       <RoomList rooms={rooms} />

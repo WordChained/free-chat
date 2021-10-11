@@ -1,0 +1,28 @@
+.rooms-list {
+  display: flex;
+  flex-direction: column;
+  border: white 1px solid;
+  text-align: start;
+  tr {
+    transition: all 0.1s ease-in-out;
+    &:hover {
+      background-color: lighten(#282c34, 7%);
+      box-shadow: white 0px 2px 2px;
+    }
+  }
+  td {
+    padding: 5px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    max-width: 200px;
+    a {
+      text-decoration: none;
+      color: white;
+      transition: all 0.5s ease-in-out;
+      &:hover {
+        color: rgb(185, 185, 185);
+      }
+    }
+  }
+}

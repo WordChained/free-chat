@@ -2,6 +2,8 @@
 @import './cmps/app-header';
 @import './cmps/user-dropdown';
 @import './cmps/login-signup';
+@import './cmps/loader';
+@import './pages/rooms';
 
 @font-face {
   font-family: angel-raphsody;
@@ -9,8 +11,8 @@
 }
 .App {
   background-color: #282c34;
-  height: 100vh;
-  // min-height: 88.3vh;
+  // height: 100vh;
+  min-height: 88.3vh;
   display: flex;
   flex-direction: column;
   justify-content: space-between;

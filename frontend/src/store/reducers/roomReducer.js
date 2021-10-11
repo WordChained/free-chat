@@ -14,6 +14,16 @@ export const roomReducer = (state = INITIAL_STATE, action) => {
                 rooms: action.data.rooms,
                 filteredRooms: action.data.filteredRooms
             }
+        case 'GET_ROOM':
+            return {
+                ...state,
+                currRoom: action.room
+            }
+        case 'SET_CURR_ROOM':
+            return {
+                ...state,
+                currRoom: action.room
+            }
         default:
             return state
     }

@@ -34,5 +34,19 @@
     "imgUrl": "",
     "likedByUsers": ["WordChained"],
     "tags": ["love", "private"]
+  },
+  {
+    "_id": { "$oid": "616316accffbd2634c88defa" },
+    "topic": "coding",
+    "description": "this is a room to talk about coding!",
+    "type": "group",
+    "owner": "WordChained",
+    "createdAt": { "$numberDouble": "1633883820047.0" },
+    "imgUrl": "",
+    "tags": ["code", "react", "javascript"],
+    "likedByUsers": ["WordChained"],
+    "restrictions": ["18+"],
+    "name": "First coding room",
+    "limit": "5"
   }
 ]

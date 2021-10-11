@@ -62,7 +62,8 @@ const add = async (room) => {
             imgUrl: room.imgUrl || '',
             tags: room.tags || [],
             likedByUsers: room.likedByUsers,
-            restrictions: room.restrictions
+            restrictions: room.restrictions,
+            limit: room.limit
         }
         const collection = await dbService.getCollection('room')
         await collection.insertOne(roomToAdd)
@@ -88,7 +89,8 @@ const update = async (room) => {
             tags: room.tags,
             msgs: room.msgs || [],
             likedByUsers: room.likedByUsers,
-            restrictions: room.restrictions
+            restrictions: room.restrictions,
+            limit: room.limit
 
         }
         const collection = await dbService.getCollection('room')
