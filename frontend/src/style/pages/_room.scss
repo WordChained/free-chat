@@ -1,0 +1,61 @@
+.room-container {
+  .chat-container {
+    border-radius: 5px;
+    overflow: hidden;
+    position: relative;
+    background-color: rgb(110, 107, 107);
+    height: 70vh;
+    .chat-btns {
+      color: black;
+      align-items: center;
+      height: 40px;
+      display: flex;
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 12%;
+      gap: 3px;
+      background-color: whitesmoke;
+      span {
+        margin-bottom: 4px;
+      }
+      img {
+        margin: 3px;
+        margin-left: 6px;
+        background: none;
+        border: none;
+        height: 30px;
+        cursor: pointer;
+      }
+    }
+    form {
+      background-color: whitesmoke;
+      display: flex;
+      position: absolute;
+      bottom: 0;
+      width: 88%;
+      input {
+        outline: none;
+        height: 40px;
+        flex: 1;
+        border: none;
+        background-color: whitesmoke;
+        font-size: 1.2rem;
+        padding: 0 10px 0 10px;
+      }
+      button {
+        background-color: whitesmoke;
+        border: none;
+        img {
+          height: 30px;
+          filter: invert(34%) sepia(40%) saturate(10000%) hue-rotate(182deg)
+            brightness(312%) contrast(20%);
+          &:hover {
+            filter: invert(34%) sepia(40%) saturate(1455%) hue-rotate(182deg)
+              brightness(92%) contrast(75%);
+          }
+        }
+      }
+    }
+  }
+}
