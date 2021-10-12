@@ -1,6 +1,6 @@
 const INITIAL_STATE = {
-    rooms: [],
-    filteredRooms: [],
+    rooms: null,
+    filteredRooms: null,
     currRoom: null,
     filterBy: { topic: '', description: '', tags: [], name: '' },
 
@@ -12,7 +12,7 @@ export const roomReducer = (state = INITIAL_STATE, action) => {
             return {
                 ...state,
                 rooms: action.data.rooms,
-                filteredRooms: action.data.filteredRooms
+                filteredRooms: action.data.filteredRooms,
             }
         case 'GET_ROOM':
             return {
@@ -23,6 +23,24 @@ export const roomReducer = (state = INITIAL_STATE, action) => {
             return {
                 ...state,
                 currRoom: action.room
+            }
+        case 'SET_FILTER':
+            return {
+                ...state,
+                filterBy: {
+                    ...state.filterBy,
+                    topic: action.filterBy,
+                    description: action.filterBy,
+                    name: action.filterBy
+                }
+            }
+        case 'SET_TAGS':
+            return {
+                ...state,
+                filterBy: {
+                    ...state.filterBy,
+                    tags: action.tags
+                }
             }
         default:
             return state

@@ -1,0 +1,32 @@
+.forms {
+  form {
+    outline: none;
+    text-align: start;
+  }
+  display: flex;
+  flex-direction: column;
+  margin: 5px;
+  gap: 10px;
+  .tags-form {
+    color: black;
+    width: 30vw;
+    min-width: 300px;
+    font-size: 1rem;
+  }
+  .free-search-form {
+    align-self: start;
+
+    input {
+      border: hsl(0, 0%, 80%) solid 1px;
+      padding: 10px;
+      font-size: 1rem;
+      border-radius: 4px;
+      width: 30vw;
+      height: 38px;
+    }
+  }
+}
+//this is the arrow down button in the dropdown for the tags filter
+.css-tj5bde-Svg {
+  cursor: pointer;
+}

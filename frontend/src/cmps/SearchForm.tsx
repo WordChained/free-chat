@@ -21,6 +21,9 @@ export const SearchForm = () => {
     { value: 'music', label: 'Music' },
     { value: 'food', label: 'Food' },
     { value: 'video games', label: 'Video Games' },
+    { value: 'code', label: 'Code' },
+    { value: 'love', label: 'Love' },
+    { value: 'art', label: 'Art' },
   ];
   const [showTopics, setShowTopics] = useState(false);
   const [topics, setTopics] = useState<keyable[]>([]);

@@ -11,8 +11,8 @@ const query = async (filterBy = '{}') => {
     console.log('criteria:', criteria);
     try {
         const collection = await dbService.getCollection('room')
-        var filteredRooms = await collection.find(criteria).toArray()
-        var rooms = await collection.find().toArray()
+        const filteredRooms = await collection.find(criteria).toArray()
+        const rooms = await collection.find().toArray()
         //Getting the tags when we can get all the rooms
         // if (!Object.keys(criteria).length) {
         //     tags = _getUniqeTags(rooms);
@@ -128,18 +128,21 @@ async function addMsg(roomId, msg) {
 
 
 function _buildCriteria(filterBy) {
+    console.log('filterBy:', filterBy);
     const criteria = {}
-    if (filterBy.topic) {
-        const nameCriteria = { $regex: filterBy.topic, $options: 'i' }
-        criteria.name = nameCriteria;
-
+    //if theres a search term:
+    if (filterBy.name) {
+        criteria.name = { $regex: filterBy.name, $options: 'i' }
+        // criteria.topic = { $regex: filterBy.topic, $options: 'i' }
+        // criteria.description = { $regex: filterBy.description, $options: 'i' }
     }
-    if (filterBy.tag && filterBy.tag !== 'All') {
-        const tagCriteria = filterBy.tag;
-        criteria.tags = tagCriteria
+    //if there are "tag filters"
+    if (filterBy.tags && filterBy.tags.length) {
+        criteria.tags = { $all: filterBy.tags.map(tag => tag.value) }
     }
     return criteria
 }
+
 
 // function _getUniqeTags(rooms) {
 //     tags = rooms.reduce(

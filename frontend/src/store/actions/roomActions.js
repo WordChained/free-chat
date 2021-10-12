@@ -4,15 +4,23 @@ import { getRandomIntInclusive } from '../../services/utilService.js';
 
 
 export const query = (filterBy) => {
+    // if (!filterBy.name && !filterBy.topic && !filterBy.description && !filterBy.tags.length) {
     return async dispatch => {
-        const data = await httpService.get(`room`)
-        // const data = await httpService.get(`room`,{filterBy})
+        // const data = await httpService.get(`room`)
+        const data = await httpService.get(`room`, { filterBy })
         dispatch({ type: 'GET_ROOMS', data })
     }
+    // } else {
+    //     return async dispatch => {
+    //         console.log('filterBy:', filterBy);
+    //         const data = await httpService.get(`room`, { filterBy })
+    //         dispatch({ type: 'GET_FILTERED_ROOMS', data })
+    //     }
+    // }
 }
 
 export const setCurrRoom = (room) => {
-    return async dispatch => {
+    return dispatch => {
         dispatch({ type: 'SET_CURR_ROOM', room })
     }
 }
@@ -22,6 +30,17 @@ export const getById = (roomId) => {
         const room = await httpService.get(`room/${roomId}`)
         console.log('room:', room);
         dispatch({ type: 'GET_ROOM', room })
+    }
+}
+
+export const setFilterBy = (filterBy) => {
+    return dispatch => {
+        dispatch({ type: 'SET_FILTER', filterBy })
+    }
+}
+export const setTags = (tags) => {
+    return dispatch => {
+        dispatch({ type: 'SET_TAGS', tags })
     }
 }
 

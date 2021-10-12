@@ -9,10 +9,12 @@ const dbName = 'free_chat_db'
 
 var dbConn = null
 
+
 const getCollection = async (collectionName) => {
     try {
         const db = await connect()
         const collection = await db.collection(collectionName)
+        // collection.createIndex({ "$**": "text" })
         return collection
     } catch (err) {
         logger.error('Failed to get Mongo collection', err)
