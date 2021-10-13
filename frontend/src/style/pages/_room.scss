@@ -15,7 +15,7 @@
       right: 0;
       width: 12%;
       gap: 3px;
-      background-color: whitesmoke;
+      background-color: #40d4af;
       span {
         margin-bottom: 4px;
       }
@@ -44,8 +44,11 @@
         padding: 0 10px 0 10px;
       }
       button {
-        background-color: whitesmoke;
+        background-color: #40d4af;
         border: none;
+        border-bottom-left-radius: 3em;
+        border-top-left-radius: 3em;
+        box-shadow: rgb(117, 117, 117) -1px 0 0px 2px;
         img {
           height: 30px;
           filter: invert(34%) sepia(40%) saturate(10000%) hue-rotate(182deg)

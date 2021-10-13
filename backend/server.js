@@ -19,10 +19,10 @@ const session = expressSession({
 // Express App Config
 app.use(express.json())
 app.use(session)
-app.use(express.static('public'))
+app.use(express.static('build'))
 console.log('process.env.NODE_ENV:', process.env.NODE_ENV);
 if (process.env.NODE_ENV === 'production') {
-    app.use(express.static(path.resolve(__dirname, 'public')))
+    app.use(express.static(path.resolve(__dirname, 'build')))
     console.log(__dirname);
 } else {
     const corsOptions = {

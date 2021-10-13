@@ -1,5 +1,7 @@
 const INITIAL_STATE = {
   loggedInUser: null,
+  //if guest, need to give loggedInUser stats anyway
+  //add a boolean called: 'guest'!!!!
   wrongPassword: null,
   wrongEmail: null,
   isUser: false,
@@ -7,11 +9,13 @@ const INITIAL_STATE = {
 }
 
 //loggedInUser:{
-// userName: String,
+//userName: String,
+//fullName: String,
+//birthday: string,
 //password: String,
-// fullName:String,
 //imgUrl: String,
 //likedRooms: Array of strings
+//isGuest: boolean,
 // }
 
 export function userReducer(state = INITIAL_STATE, action) {

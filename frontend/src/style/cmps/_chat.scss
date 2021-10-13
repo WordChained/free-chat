@@ -1,0 +1,30 @@
+.msgs-container {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  overflow: auto;
+  overflow-x: hidden;
+  margin-bottom: 45px;
+  flex: 1;
+  max-height: 95%;
+  [name='single-msg'] {
+    display: flex;
+    align-items: center;
+    padding: 5px 20px 5px 20px;
+    border: white 1px solid;
+    background-color: white;
+    color: black;
+    width: max-content;
+    max-width: 50ch;
+    // height: max-content;
+    border-radius: 10px;
+    align-self: flex-end;
+    word-wrap: nowrap;
+    text-align: start;
+    .sender {
+      background-color: #40d4af;
+      align-self: flex-start;
+    }
+  }
+}

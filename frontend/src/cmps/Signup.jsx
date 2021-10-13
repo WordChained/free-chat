@@ -92,6 +92,13 @@ export const Signup = ({ close, onLoginLink }) => {
           />
           <input
             required
+            {...register('birthday')}
+            type="date"
+            name="birthday"
+            id="birthday"
+          />
+          <input
+            required
             {...register('email')}
             type="email"
             name="email"

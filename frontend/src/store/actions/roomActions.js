@@ -4,19 +4,11 @@ import { getRandomIntInclusive } from '../../services/utilService.js';
 
 
 export const query = (filterBy) => {
-    // if (!filterBy.name && !filterBy.topic && !filterBy.description && !filterBy.tags.length) {
     return async dispatch => {
-        // const data = await httpService.get(`room`)
         const data = await httpService.get(`room`, { filterBy })
         dispatch({ type: 'GET_ROOMS', data })
     }
-    // } else {
-    //     return async dispatch => {
-    //         console.log('filterBy:', filterBy);
-    //         const data = await httpService.get(`room`, { filterBy })
-    //         dispatch({ type: 'GET_FILTERED_ROOMS', data })
-    //     }
-    // }
+
 }
 
 export const setCurrRoom = (room) => {
@@ -38,6 +30,7 @@ export const setFilterBy = (filterBy) => {
         dispatch({ type: 'SET_FILTER', filterBy })
     }
 }
+
 export const setTags = (tags) => {
     return dispatch => {
         dispatch({ type: 'SET_TAGS', tags })
@@ -55,21 +48,31 @@ export const remove = async (roomId) => {
 
 }
 //add and update
-export const save = async (room) => {
-    try {
-        if (!room._id) {
+export const save = (room) => {
+    if (!room._id) {
+        return async dispatch => {
             const newRoom = await httpService.post(`room/`, room)
-            return newRoom
-        } else {
-            const updatedRoom = await httpService.put(`room/`, room)
-            return updatedRoom
+            dispatch({ type: 'ADD_ROOM', newRoom })
         }
-    } catch (err) {
-        console.log('Error on room service =>', err)
-        throw err;
     }
-
-
+    else {
+        return async dispatch => {
+            const updatedRoom = await httpService.put(`room/`, room)
+            dispatch({ type: 'UPDATE_ROOM', updatedRoom })
+        }
+    }
+    // try {
+    //     if (!room._id) {
+    //         const newRoom = await httpService.post(`room/`, room)
+    //         return newRoom
+    //     } else {
+    //         const updatedRoom = await httpService.put(`room/`, room)
+    //         return updatedRoom
+    //     }
+    // } catch (err) {
+    //     console.log('Error on room service =>', err)
+    //     throw err;
+    // }
 }
 
 export const getEmptyRoom = () => {

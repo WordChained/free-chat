@@ -2,7 +2,7 @@ const { updateRoom } = require('../api/room/room-controller');
 const asyncLocalStorage = require('./als-service');
 const logger = require('./logger-service');
 
-var gIo = null
+let gIo = null
 
 function connectSockets(http, session) {
     gIo = require('socket.io')(http);

@@ -1,22 +1,10 @@
-// import axios from 'axios'
 import { httpService } from './httpService.js'
 import { getRandomIntInclusive } from './utilService.js';
-// import { storageService } from './async-storage-service.js'
-
-// const STATION_KEY = 'room'
-// const IMG_URL = 'https://is4-ssl.mzstatic.com/image/thumb/Purple124/v4/6a/e4/59/6ae45956-8b3d-0ff2-81f8-587c7c65b515/source/256x256bb.jpg'
 
 
 // const STATION_URL = 'http://127.0.0.1:3030/api/room/'
 
 const query = async (filterBy) => {
-    // let rooms = await storageService.query(STATION_KEY)
-    // if (!rooms || !rooms.length) {
-    //   rooms = gRooms
-    //   storageService.postMany(STATION_KEY, rooms)
-    // }
-    // return rooms
-
     try {
         const data = await httpService.get(`room`, { filterBy })
         // const data = await httpService.get(`room`, { params: filterBy })
