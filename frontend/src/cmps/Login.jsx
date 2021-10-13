@@ -16,11 +16,13 @@ export const Login = ({ close, onSignupLink }) => {
 
   const onSubmit = (data) => {
     const validation = /^[^<>%$]*$/;
-    if (!validation.test(data.password) || !validation.test(data.email)) {
+    if (!validation.test(data.password) || !validation.test(data.userName)) {
       setError("Don't use the following charaters: ^,<,>,%,$");
       return;
     }
-    dispatch(login(data.email.trim(), data.password.trim()));
+    const userName = data.userName.trim();
+    const password = data.password.trim();
+    dispatch(login({ userName, password }));
     // close();
   };
   useEffect(() => {
@@ -56,10 +58,10 @@ export const Login = ({ close, onSignupLink }) => {
         <form onSubmit={handleSubmit(onSubmit)}>
           <input
             className={wrongEmail ? 'wrong' : ''}
-            {...register('email')}
-            type="email"
-            name="email"
-            placeholder="Enter your email"
+            {...register('userName')}
+            type="text"
+            name="userName"
+            placeholder="Enter your userName"
             required
           />
           <div className="passwords-container">

@@ -8,6 +8,7 @@ import smiley from '../assets/imgs/smiley.png';
 import send from '../assets/imgs/send.png';
 
 import { getMsgs, addMsg } from '../store/actions/chatActions';
+
 export const Chat = () => {
   const { register, handleSubmit, reset } = useForm();
   const dispatch = useDispatch();
@@ -17,13 +18,16 @@ export const Chat = () => {
 
   useEffect(() => {
     dispatch(getMsgs(currRoom._id));
+    // !!!!!!!!!!!
+    //need to 'destroy' chat to clear msgs so they wont appear for a moment when i open a new room
+    //!!!!!!!!!!!!!!!
+    //eslint-disable-next-line
   }, []);
 
   const onSubmit = (data) => {
+    if (!data['msg-input']) return;
     console.log('msg-input:', data['msg-input']);
-    // const msg = {id: }
-    // ObjectId id = new ObjectId();
-    dispatch(addMsg(currRoom._id, data['msg-input']));
+    dispatch(addMsg(currRoom._id, data['msg-input'], loggedInUser._id));
     reset();
   };
 
@@ -40,6 +44,13 @@ export const Chat = () => {
               }
             >
               {msg.text}
+              <span className="sent-at">
+                {new Date(msg.sentAt).toLocaleTimeString('he-IL', {
+                  hour: '2-digit',
+                  minute: '2-digit',
+                })}{' '}
+                ✔✔
+              </span>
             </div>
           ))}
         </div>

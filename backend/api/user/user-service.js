@@ -1,6 +1,6 @@
 const dbService = require('../../services/db-service')
 const logger = require('../../services/logger-service')
-    // const reviewService = require('../review/review-service')
+// const reviewService = require('../review/review-service')
 const bcrypt = require('bcrypt')
 const ObjectId = require('mongodb').ObjectId
 
@@ -23,8 +23,8 @@ async function query() {
         users = users.map(user => {
             delete user.password
             user.createdAt = ObjectId(user._id).getTimestamp()
-                // Returning fake fresh data
-                // user.createdAt = Date.now() - (1000 * 60 * 60 * 24 * 3) // 3 days ago
+            // Returning fake fresh data
+            // user.createdAt = Date.now() - (1000 * 60 * 60 * 24 * 3) // 3 days ago
             return user
         })
         return users
@@ -52,13 +52,14 @@ async function getById(userId) {
         throw err
     }
 }
-async function getByUsername(username) {
+async function getByUsername(userName) {
     try {
         const collection = await dbService.getCollection('user')
-        const user = await collection.findOne({ username })
+        const user = await collection.findOne({ userName })
+        logger.debug('getByusername:', user)
         return user
     } catch (err) {
-        logger.error(`while finding user ${username}`, err)
+        logger.error(`while finding user ${userName}`, err)
         throw err
     }
 }
@@ -76,13 +77,13 @@ async function remove(userId) {
 async function update(user) {
     // const isAdmin = JSON.parse(user.isAdmin);
     // console.log(isAdmin);
-    const { username, fullname, likedRooms, imgUrl } = user
+    const { userName, fullName, likedRooms, imgUrl } = user
     try {
         // peek only updatable fields!
         const userToSave = {
             _id: ObjectId(user._id),
-            username,
-            fullname,
+            userName,
+            fullName,
             imgUrl,
             likedRooms
         }
@@ -96,14 +97,15 @@ async function update(user) {
 }
 
 async function add(user) {
-    const { username, password, fullname, imgUrl, likedRooms } = user
+    const { userName, password, fullName, imgUrl, likedRooms, birthday } = user
     try {
         const userToAdd = {
-            username,
+            userName,
             password,
-            fullname,
+            fullName,
             imgUrl,
-            likedRooms
+            likedRooms,
+            birthday
         }
         const collection = await dbService.getCollection('user')
         await collection.insertOne(userToAdd)
@@ -121,11 +123,11 @@ function _buildCriteria(filterBy) {
     if (filterBy.txt) {
         const txtCriteria = { $regex: filterBy.txt, $options: 'i' }
         criteria.$or = [{
-                username: txtCriteria
-            },
-            {
-                fullname: txtCriteria
-            }
+            userName: txtCriteria
+        },
+        {
+            fullName: txtCriteria
+        }
         ]
     }
     if (filterBy.minBalance) {

@@ -95,7 +95,6 @@ export const Signup = ({ close, onLoginLink }) => {
             {...register('birthday')}
             type="date"
             name="birthday"
-            id="birthday"
           />
           <input
             required

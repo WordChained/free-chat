@@ -9,9 +9,10 @@
   flex: 1;
   max-height: 95%;
   [name='single-msg'] {
+    position: relative;
     display: flex;
     align-items: center;
-    padding: 5px 20px 5px 20px;
+    padding: 5px 20px 15px 20px;
     border: white 1px solid;
     background-color: white;
     color: black;
@@ -22,6 +23,13 @@
     align-self: flex-end;
     word-wrap: nowrap;
     text-align: start;
+    .sent-at {
+      position: absolute;
+      bottom: 0;
+      left: 5%;
+      color: rgba(0, 0, 0, 0.472);
+      font-size: 0.8rem;
+    }
     .sender {
       background-color: #40d4af;
       align-self: flex-start;

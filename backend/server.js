@@ -10,6 +10,9 @@ app.get('/api/test', (req, res) => {
 })
 const http = require('http').createServer(app)
 
+// app.use(passport.initialize());
+// app.use(passport.session());
+
 const session = expressSession({
     secret: 'coding is amazing',
     resave: false,
@@ -19,10 +22,10 @@ const session = expressSession({
 // Express App Config
 app.use(express.json())
 app.use(session)
-app.use(express.static('build'))
+app.use(express.static('public'))
 console.log('process.env.NODE_ENV:', process.env.NODE_ENV);
 if (process.env.NODE_ENV === 'production') {
-    app.use(express.static(path.resolve(__dirname, 'build')))
+    app.use(express.static(path.resolve(__dirname, 'public')))
     console.log(__dirname);
 } else {
     const corsOptions = {

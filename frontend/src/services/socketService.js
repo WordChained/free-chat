@@ -8,20 +8,22 @@ export const SOCKET_EVENT_USER_UPDATED = 'user-updated';
 
 
 const baseUrl = (process.env.NODE_ENV === 'production') ? '' : '//localhost:3030'
+
 export const socketService = createSocketService()
+
 // export const socketService = createDummySocketService()
 
-window.socketService = socketService
+// window.socketService = socketService
 
 // var socketIsReady = false;
+
 socketService.setup()
 
 
 function createSocketService() {
-    var socket = null;
+    let socket = null;
     const socketService = {
         async setup() {
-            // YaronB: Need to send a dummy ajax request as to setup the socket-session correctly
             // await httpService.get('setup-session')
             // socket = io(baseUrl, { reconnection: false})
             socket = io.connect(baseUrl)

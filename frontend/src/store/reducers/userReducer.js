@@ -20,6 +20,12 @@ const INITIAL_STATE = {
 
 export function userReducer(state = INITIAL_STATE, action) {
   switch (action.type) {
+    case 'SET_READY':
+      // console.log('action.user:', action.user);
+      return {
+        ...state,
+        ready: action.isReady
+      }
     case 'LOGIN':
       // console.log('action.user:', action.user);
       return {

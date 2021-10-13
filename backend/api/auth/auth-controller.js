@@ -2,9 +2,9 @@ const authService = require('./auth-service')
 const logger = require('../../services/logger-service')
 
 const login = async (req, res) => {
-    const { username, password } = req.body
+    const { userName, password } = req.body
     try {
-        const user = await authService.login(username, password)
+        const user = await authService.login(userName, password)
         req.session.user = user
         res.json(user)
     } catch (err) {
@@ -15,12 +15,13 @@ const login = async (req, res) => {
 
 const signup = async (req, res) => {
     try {
-        const { username, password, fullname, imgUrl, likedRooms, birthday } = req.body
+        const { userName, password, fullName, imgUrl, likedRooms, birthday, email } = req.body
         // Never log passwords
-        // logger.debug(fullname + ', ' + username + ', ' + password)
-        const account = await authService.signup(username, password, fullname, imgUrl, likedRooms, birthday)
+        // logger.debug(fullName + ', ' + userName + ', ' + password)
+
+        const account = await authService.signup(userName, password, fullName, imgUrl, likedRooms, birthday, email)
         logger.debug(`auth-route - new account created: ` + JSON.stringify(account))
-        const user = await authService.login(username, password)
+        const user = await authService.login(userName, password)
         req.session.user = user
         res.json(user)
     } catch (err) {

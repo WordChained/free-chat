@@ -9,14 +9,16 @@ export const Room = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const { id } = useParams();
+
   useEffect(() => {
     dispatch(getById(id));
+    //eslint-disable-next-line
   }, []);
+
   const exitRoom = () => {
     history.goBack();
     dispatch(setCurrRoom(null));
   };
-  //need to add a loader
   if (!currRoom)
     return (
       <div className="lds-ripple">
