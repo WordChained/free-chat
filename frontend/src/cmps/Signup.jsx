@@ -66,7 +66,7 @@ export const Signup = ({ close, onLoginLink }) => {
   useEffect(() => {
     if (loggedInUser !== null) {
       close();
-      history.push('/');
+      history.replace('/');
     }
     //eslint-disable-next-line
   }, [loggedInUser]);

@@ -40,6 +40,15 @@
       span {
         cursor: pointer;
       }
+      &.guest {
+        .reg-btns {
+          display: flex;
+          border: rgb(63, 63, 63) 1px solid;
+          border-radius: 3em;
+          padding: 5px;
+          gap: 2px;
+        }
+      }
     }
     .navigation-btns {
       button {

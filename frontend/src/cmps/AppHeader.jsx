@@ -20,7 +20,7 @@ import { useDispatch } from 'react-redux';
 import logo from '../assets/imgs/chat-logo.png';
 
 export const AppHeader = () => {
-  const { loggedInUser } = useSelector((state) => state.userModule);
+  const { loggedInUser, guestUser } = useSelector((state) => state.userModule);
   const history = useHistory();
   const dispatch = useDispatch();
 
@@ -78,17 +78,22 @@ export const AppHeader = () => {
         >
           Rooms
         </NavLink>
-        <div className="user-links">
-          {loggedInUser && (
-            <UserDropdown user={loggedInUser} logout={onLogout} />
+        <div className={`user-links ${guestUser ? 'guest' : ''}`}>
+          {(loggedInUser || guestUser) && (
+            <UserDropdown
+              user={loggedInUser ? loggedInUser : guestUser}
+              logout={onLogout}
+            />
           )}
-          {!loggedInUser && (
-            <span onClick={() => setShowLogin(true)}>Login</span>
-          )}
-          {!loggedInUser && '|'}
-          {!loggedInUser && (
-            <span onClick={() => setShowSignup(true)}>Signup</span>
-          )}
+          <div className="reg-btns">
+            {!loggedInUser && (
+              <span onClick={() => setShowLogin(true)}>Login</span>
+            )}
+            {!loggedInUser && '|'}
+            {!loggedInUser && (
+              <span onClick={() => setShowSignup(true)}>Signup</span>
+            )}
+          </div>
         </div>
         {showSignup && <Signup close={closeSignup} onLoginLink={onLoginLink} />}
         {showLogin && <Login close={closeLogin} onSignupLink={onSignupLink} />}

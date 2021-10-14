@@ -30,7 +30,7 @@ export const Login = ({ close, onSignupLink }) => {
     if (loggedInUser !== null) {
       setError('');
       close();
-      history.push('/');
+      history.replace('/');
     }
     //eslint-disable-next-line
   }, [loggedInUser]);

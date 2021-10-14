@@ -29,12 +29,21 @@ export function userReducer(state = INITIAL_STATE, action) {
       // console.log('action.user:', action.user);
       return {
         ...state,
-        loggedInUser: action.user
+        loggedInUser: action.user,
+        guestUser: null
+      }
+    case 'LOGIN_GUEST':
+      // console.log('action.user:', action.user);
+      return {
+        ...state,
+        guestUser: action.user,
+        loggedInUser: null
       }
     case 'LOGOUT':
       return {
         ...state,
-        loggedInUser: null
+        loggedInUser: null,
+        guestUser: null
       }
     // case 'SIGNUP':
     //   return {

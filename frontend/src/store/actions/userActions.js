@@ -1,6 +1,7 @@
 import { storageService } from '../../services/async-storage.service'
 import { httpService } from '../../services/httpService'
 import { socketService } from '../../services/socketService'
+import { makeId } from '../../services/utilService'
 
 // const STORAGE_KEY_LOGGEDIN_USER = 'loggedInUser'
 // var gWatchedUser = null;
@@ -53,16 +54,32 @@ export const update = (user) => {
     }
 }
 
-export const login = (userCred) => {
+export const login = (userCred, isGuest = false) => {
     return async dispatch => {
-        try {
-            const user = await httpService.post('auth/login', userCred)
-            if (user) _saveLocalUser(user)
-            dispatch({ type: 'LOGIN', user })
+        if (isGuest) {
+            const _id = makeId(7)
+            const user = {
+                _id,
+                userName: `guest${_id}`,
+                fullName: `guest${_id}`,
+                imgUrl: '',
+                likedRooms: [],
+                birthday: Date.now(),
+                sex: 'guest'
+            }
+            _saveLocalUser(user)
+            dispatch({ type: 'LOGIN_GUEST', user })
+        }
+        else {
+            try {
+                const user = await httpService.post('auth/login', userCred)
+                if (user) _saveLocalUser(user)
+                dispatch({ type: 'LOGIN', user })
 
-        } catch (err) {
-            console.log('login error:', err);
-            dispatch({ type: 'LOGIN_ERROR', isWrong: true })
+            } catch (err) {
+                console.log('login error:', err);
+                dispatch({ type: 'LOGIN_ERROR', isWrong: true })
+            }
         }
     }
 }
@@ -99,14 +116,20 @@ export const getLoggedinUser = () => {
 
 export const persistLogin = (user) => {
     return async dispatch => {
-        try {
-            const userId = await httpService.get('user', user._Id)
-            if (userId) {
-                dispatch({ type: 'LOGIN', user })
+        if (user.sex === 'guest') {
+            dispatch({ type: 'LOGIN_GUEST', user })
+        }
+        else {
+
+            try {
+                const userId = await httpService.get('user', user._Id)
+                if (userId) {
+                    dispatch({ type: 'LOGIN', user })
+                }
+            } catch (err) {
+                console.log('persistLogin error:', err);
+                console.log('user does not exist (persistLogin)');
             }
-        } catch (err) {
-            console.log('persistLogin error:', err);
-            console.log('user does not exist (persistLogin)');
         }
     }
 }

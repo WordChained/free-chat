@@ -2,7 +2,15 @@ import React, { useState } from 'react';
 
 import { Login } from '../cmps/Login';
 import { Signup } from '../cmps/Signup';
+
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import { login } from '../store/actions/userActions';
 export const LandingPage = () => {
+  const dispatch = useDispatch();
+  const history = useHistory();
+  // const { guestUser } = useSelector((state) => state.userModule);
+
   const onLoginLink = () => {
     setShowLogin(true);
     setShowSignup(false);
@@ -17,6 +25,11 @@ export const LandingPage = () => {
 
   const closeLogin = () => setShowLogin(false);
   const closeSignup = () => setShowSignup(false);
+
+  const enterAsGuest = () => {
+    dispatch(login({}, true));
+    history.replace('/');
+  };
   return (
     <div className="landing-page">
       <div className="greeting">
@@ -26,7 +39,7 @@ export const LandingPage = () => {
       {showLogin && <Login close={closeLogin} onSignupLink={onSignupLink} />}
       <div className="enter-as-guest">
         <p>Or Start chatting as a guest</p>
-        <button>Let's Go!</button>
+        <button onClick={enterAsGuest}>Let's Go!</button>
       </div>
     </div>
   );

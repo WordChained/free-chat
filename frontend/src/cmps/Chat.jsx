@@ -11,6 +11,7 @@ import send from '../assets/imgs/send.png';
 
 import maleUser from '../assets/imgs/tattoo-male.png';
 import femaleUser from '../assets/imgs/tattoo-female.png';
+import guest from '../assets/imgs/guest.png';
 
 import { getMsgs, addMsg } from '../store/actions/chatActions';
 
@@ -27,10 +28,13 @@ export const Chat = () => {
   const [currUser, setCurrUser] = useState(null);
 
   useEffect(() => {
-    if (loggedInUser) setCurrUser(loggedInUser);
-    else if (guestUser) setCurrUser(guestUser);
-    console.log('wtf:', loggedInUser);
-    setDefaultImg(loggedInUser.sex === 'male' ? maleUser : femaleUser);
+    if (guestUser) {
+      setCurrUser(loggedInUser);
+      setDefaultImg(guest);
+    } else if (loggedInUser) {
+      setCurrUser(loggedInUser);
+      setDefaultImg(loggedInUser.sex === 'male' ? maleUser : femaleUser);
+    }
     dispatch(getMsgs(currRoom._id));
     setTimeout(() => {
       setSent(true);
@@ -54,6 +58,7 @@ export const Chat = () => {
         <div className="msgs-container">
           {currChatMsgs.map((msg) => (
             <div
+              key={msg.id}
               className={`single-msg ${
                 loggedInUser && loggedInUser._id === msg.uid ? 'sender' : ''
               }`}
