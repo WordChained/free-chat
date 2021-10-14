@@ -6,7 +6,7 @@ import { Chat } from '../cmps/Chat';
 
 export const Room = () => {
   const { currRoom } = useSelector((state) => state.roomModule);
-  const { loggedInUser } = useSelector((state) => state.userModule);
+  const { loggedInUser, guestUser } = useSelector((state) => state.userModule);
   const history = useHistory();
   const dispatch = useDispatch();
   const { id } = useParams();
@@ -34,7 +34,7 @@ export const Room = () => {
       </Link> */}
       <button onClick={exitRoom}>Back</button>
       <h3>{currRoom.name}</h3>
-      {loggedInUser && <Chat />}
+      {loggedInUser || (guestUser && <Chat />)}
     </div>
   );
 };

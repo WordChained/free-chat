@@ -21,10 +21,13 @@ import {
 import { About } from './pages/About';
 import { Rooms } from './pages/Rooms';
 import { Room } from './pages/Room';
+import { LandingPage } from './pages/LandingPage';
 
 function App() {
   const dispatch = useDispatch();
-  const { loggedInUser, ready } = useSelector((state) => state.userModule);
+  const { loggedInUser, ready, guestUser } = useSelector(
+    (state) => state.userModule
+  );
 
   useEffect(() => {
     const user = getLoggedinUser();
@@ -39,10 +42,10 @@ function App() {
 
   const PrivateRoute = (props) => {
     // return props.isAdmin ? <Route {...props} /> : <Redirect to="/" />
-    return loggedInUser ? (
+    return loggedInUser || guestUser ? (
       <Route path={props.path} component={props.component} />
     ) : (
-      <Redirect to="/rooms" />
+      <Redirect to="/:landingPage" />
     );
   };
   if (!ready)
@@ -55,17 +58,18 @@ function App() {
   else
     return (
       <Router>
-        <AppHeader />
+        {(loggedInUser || guestUser) && <AppHeader />}
         <main className="App">
           <Switch>
             {/* <PrivateRoute path="/rooms/:id" component={Room} /> */}
-            <Route path="/rooms/:id" component={Room} />
-            <Route path="/rooms" component={Rooms} />
-            <Route path="/about" component={About} />
-            <Route path="/" component={MainPage} />
+            <PrivateRoute path="/rooms/:id" component={Room} />
+            <PrivateRoute path="/rooms" component={Rooms} />
+            <PrivateRoute path="/about" component={About} />
+            <Route path="/:landingPage" component={LandingPage} />
+            <PrivateRoute path="/" component={MainPage} />
           </Switch>
         </main>
-        <AppFooter />
+        {(loggedInUser || guestUser) && <AppFooter />}
       </Router>
     );
 }

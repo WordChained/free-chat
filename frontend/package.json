@@ -2,7 +2,7 @@
   "name": "free-chat",
   "version": "0.1.0",
   "private": true,
-  "homepage": " https://WordChained.github.io/tattooPicker",
+  "homepage": " https://WordChained.github.io/free-chat",
   "dependencies": {
     "@babel/core": "^7.15.0",
     "@testing-library/jest-dom": "^5.14.1",

@@ -2,8 +2,7 @@ const INITIAL_STATE = {
   loggedInUser: null,
   guestUser: null,
   //
-  wrongPassword: null,
-  wrongEmail: null,
+  wrongCreds: null,
   isRegisteredUser: false,
   ready: false
 }
@@ -42,15 +41,11 @@ export function userReducer(state = INITIAL_STATE, action) {
     //     ...state,
     //     loggedInUser: action.user
     //   }
-    case 'SET_WRONG_PASSWORD':
+    case 'LOGIN_ERROR':
+    case 'SIGNUP_ERROR':
       return {
         ...state,
-        wrongPassword: action.isWrong
-      }
-    case 'SET_WRONG_EMAIL':
-      return {
-        ...state,
-        wrongEmail: action.isWrong
+        wrongCreds: action.isWrong
       }
     case 'SET_REGISTERED_USER':
       return {

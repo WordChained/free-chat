@@ -29,6 +29,7 @@ export const AppHeader = () => {
 
   const closeLogin = () => setShowLogin(false);
   const closeSignup = () => setShowSignup(false);
+
   const onLoginLink = () => {
     setShowLogin(true);
     setShowSignup(false);

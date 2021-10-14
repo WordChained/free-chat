@@ -1,0 +1,37 @@
+.landing-page {
+  display: flex;
+  flex-direction: column;
+  .enter-as-guest {
+    display: flex;
+    background: rgb(229, 108, 9);
+    background: linear-gradient(
+      332deg,
+      rgba(229, 108, 9, 1) 0%,
+      rgba(41, 195, 173, 1) 60%,
+      rgba(103, 74, 101, 1) 100%
+    );
+    //in mobile
+    width: 90vw;
+    //in desktop
+    // width: 70vw;
+    align-self: center;
+    align-items: center;
+    justify-content: space-around;
+    position: absolute;
+    bottom: 20px;
+    border-radius: 3em;
+    button {
+      padding: 1em;
+      border-radius: 3em;
+      box-shadow: white 0px 0px 5px;
+      border: none;
+      background-color: crimson;
+      color: white;
+      font-weight: 600;
+      transition: all 0.5s ease-in-out;
+      &:hover {
+        background-color: lighten(crimson, 10%);
+      }
+    }
+  }
+}

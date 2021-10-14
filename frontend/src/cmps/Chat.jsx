@@ -18,14 +18,17 @@ export const Chat = () => {
   const { register, handleSubmit, reset } = useForm();
   const dispatch = useDispatch();
   const { currChatMsgs } = useSelector((state) => state.chatModule);
-  const { loggedInUser } = useSelector((state) => state.userModule);
+  const { loggedInUser, guestUser } = useSelector((state) => state.userModule);
   const { currRoom } = useSelector((state) => state.roomModule);
 
   const [sent, setSent] = useState(false);
   const [defaultImg, setDefaultImg] = useState('');
-  const [domColor, setDomColor] = useState('#fff');
+
+  const [currUser, setCurrUser] = useState(null);
 
   useEffect(() => {
+    if (loggedInUser) setCurrUser(loggedInUser);
+    else if (guestUser) setCurrUser(guestUser);
     console.log('wtf:', loggedInUser);
     setDefaultImg(loggedInUser.sex === 'male' ? maleUser : femaleUser);
     dispatch(getMsgs(currRoom._id));

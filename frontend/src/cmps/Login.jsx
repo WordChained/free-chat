@@ -1,6 +1,7 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
+import { useHistory, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { login } from '../store/actions/userActions';
 
@@ -10,9 +11,9 @@ import openEye from '../assets/imgs/open-eye.png';
 export const Login = ({ close, onSignupLink }) => {
   const { register, handleSubmit } = useForm();
   const dispatch = useDispatch();
-  const { loggedInUser, wrongPassword, wrongEmail } = useSelector(
-    (state) => state.userModule
-  );
+  const history = useHistory();
+  const params = useParams();
+  const { loggedInUser, wrongCreds } = useSelector((state) => state.userModule);
 
   const onSubmit = (data) => {
     const validation = /^[^<>%$]*$/;
@@ -29,6 +30,7 @@ export const Login = ({ close, onSignupLink }) => {
     if (loggedInUser !== null) {
       setError('');
       close();
+      history.push('/');
     }
     //eslint-disable-next-line
   }, [loggedInUser]);
@@ -36,12 +38,10 @@ export const Login = ({ close, onSignupLink }) => {
   const [error, setError] = useState('');
   const [show, setShow] = useState(false);
   useEffect(() => {
-    if (wrongPassword) {
-      setError('Wrong Password');
-    } else if (wrongEmail) {
-      setError('Wrong email. try again or signup');
+    if (wrongCreds) {
+      setError('Wrong Password or eMail');
     }
-  }, [wrongPassword, wrongEmail]);
+  }, [wrongCreds]);
 
   const toggleShowPassword = (ev) => {
     ev.stopPropagation();
@@ -49,15 +49,17 @@ export const Login = ({ close, onSignupLink }) => {
     setShow(!show);
   };
   return (
-    <section className="screen-cover">
+    <section className={params.landingPage ? '' : 'screen-cover'}>
       <div className="login-container">
-        <button onClick={close} className="close">
-          X
-        </button>
+        {!params.landingPage && (
+          <button onClick={close} className="close">
+            X
+          </button>
+        )}
         <h3>Login</h3>
         <form onSubmit={handleSubmit(onSubmit)}>
           <input
-            className={wrongEmail ? 'wrong' : ''}
+            className={wrongCreds ? 'wrong' : ''}
             {...register('userName')}
             type="text"
             name="userName"
@@ -66,7 +68,7 @@ export const Login = ({ close, onSignupLink }) => {
           />
           <div className="passwords-container">
             <input
-              className={wrongPassword ? 'wrong' : ''}
+              className={wrongCreds ? 'wrong' : ''}
               {...register('password')}
               type={show ? 'text' : 'password'}
               name="password"

@@ -61,7 +61,8 @@ export const login = (userCred) => {
             dispatch({ type: 'LOGIN', user })
 
         } catch (err) {
-            console.log('login error::', err);
+            console.log('login error:', err);
+            dispatch({ type: 'LOGIN_ERROR', isWrong: true })
         }
     }
 }
@@ -75,6 +76,7 @@ export const signup = (userCred) => {
             dispatch({ type: 'SIGNUP', user })
         } catch (err) {
             console.log('signup error:', err);
+            dispatch({ type: 'LOGIN_ERROR', isWrong: true })
         }
     }
 }

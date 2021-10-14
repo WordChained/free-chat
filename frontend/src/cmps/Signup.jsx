@@ -6,6 +6,7 @@ import { signup } from '../store/actions/userActions';
 import closedEye from '../assets/imgs/closed-eye.png';
 import openEye from '../assets/imgs/open-eye.png';
 import { useRef } from 'react';
+import { useHistory, useParams } from 'react-router-dom';
 
 export const Signup = ({ close, onLoginLink }) => {
   const {
@@ -13,7 +14,8 @@ export const Signup = ({ close, onLoginLink }) => {
     handleSubmit,
     // getValues
   } = useForm();
-
+  const history = useHistory();
+  const params = useParams();
   const dispatch = useDispatch();
   const { loggedInUser, isUser } = useSelector((state) => state.userModule);
   const pass = useRef({});
@@ -64,16 +66,19 @@ export const Signup = ({ close, onLoginLink }) => {
   useEffect(() => {
     if (loggedInUser !== null) {
       close();
+      history.push('/');
     }
     //eslint-disable-next-line
   }, [loggedInUser]);
 
   return (
-    <section className="screen-cover">
+    <section className={params.landingPage ? '' : 'screen-cover'}>
       <div className="signup-container">
-        <button onClick={close} className="close">
-          X
-        </button>
+        {!params.landingPage && (
+          <button onClick={close} className="close">
+            X
+          </button>
+        )}
         <h3>SIGNUP</h3>
         <form onSubmit={handleSubmit(onSubmit)}>
           <input
@@ -91,7 +96,7 @@ export const Signup = ({ close, onLoginLink }) => {
             placeholder="Your full name"
           />
           <select required {...register('sex')} name="sex" id="sex">
-            <option selected disabled value="">
+            <option defaultValue disabled value="">
               Sex
             </option>
             <option value="male">Male</option>
