@@ -1,10 +1,10 @@
 const INITIAL_STATE = {
   loggedInUser: null,
-  //if guest, need to give loggedInUser stats anyway
-  //add a boolean called: 'guest'!!!!
+  guestUser: null,
+  //
   wrongPassword: null,
   wrongEmail: null,
-  isUser: false,
+  isRegisteredUser: false,
   ready: false
 }
 

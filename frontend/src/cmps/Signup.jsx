@@ -90,6 +90,13 @@ export const Signup = ({ close, onLoginLink }) => {
             className="fullName"
             placeholder="Your full name"
           />
+          <select required {...register('sex')} name="sex" id="sex">
+            <option selected disabled value="">
+              Sex
+            </option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+          </select>
           <input
             required
             {...register('birthday')}

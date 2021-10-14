@@ -1,11 +1,16 @@
-import React, { useEffect } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
+
+import Color from 'color-thief-react';
 //buttons imgs:
 import cogwheel from '../assets/imgs/setting.png';
 import attachment from '../assets/imgs/attachment.png';
 import smiley from '../assets/imgs/smiley.png';
 import send from '../assets/imgs/send.png';
+
+import maleUser from '../assets/imgs/tattoo-male.png';
+import femaleUser from '../assets/imgs/tattoo-female.png';
 
 import { getMsgs, addMsg } from '../store/actions/chatActions';
 
@@ -16,8 +21,17 @@ export const Chat = () => {
   const { loggedInUser } = useSelector((state) => state.userModule);
   const { currRoom } = useSelector((state) => state.roomModule);
 
+  const [sent, setSent] = useState(false);
+  const [defaultImg, setDefaultImg] = useState('');
+  const [domColor, setDomColor] = useState('#fff');
+
   useEffect(() => {
+    console.log('wtf:', loggedInUser);
+    setDefaultImg(loggedInUser.sex === 'male' ? maleUser : femaleUser);
     dispatch(getMsgs(currRoom._id));
+    setTimeout(() => {
+      setSent(true);
+    }, 1500);
     // !!!!!!!!!!!
     //need to 'destroy' chat to clear msgs so they wont appear for a moment when i open a new room
     //!!!!!!!!!!!!!!!
@@ -37,20 +51,53 @@ export const Chat = () => {
         <div className="msgs-container">
           {currChatMsgs.map((msg) => (
             <div
-              key={msg.id}
-              name="single-msg"
-              className={
-                loggedInUser && loggedInUser._id === msg.id ? 'sender' : ''
-              }
+              className={`single-msg ${
+                loggedInUser && loggedInUser._id === msg.uid ? 'sender' : ''
+              }`}
             >
-              {msg.text}
-              <span className="sent-at">
-                {new Date(msg.sentAt).toLocaleTimeString('he-IL', {
-                  hour: '2-digit',
-                  minute: '2-digit',
-                })}{' '}
-                ✔✔
-              </span>
+              <Color
+                src={
+                  loggedInUser && loggedInUser.imgUrl
+                    ? loggedInUser.imgUrl
+                    : defaultImg
+                }
+                crossOrigin="anonymous"
+                format="hex"
+              >
+                {({ data, loading }) => {
+                  if (loading) return <div>🕒</div>;
+                  return (
+                    <img
+                      style={{ backgroundColor: data }}
+                      className="user-img"
+                      src={
+                        loggedInUser && loggedInUser.imgUrl
+                          ? loggedInUser.imgUrl
+                          : defaultImg
+                      }
+                      alt="userImg"
+                    />
+                  );
+                }}
+              </Color>
+              <div
+                key={msg.id}
+                name="single-msg-txt"
+                className={
+                  loggedInUser && loggedInUser._id === msg.uid ? 'sender' : ''
+                }
+              >
+                {msg.text}
+                <span className="sent-at">
+                  {new Date(msg.sentAt).toLocaleTimeString('he-IL', {
+                    hour: '2-digit',
+                    minute: '2-digit',
+                  })}{' '}
+                  <span className={`msg-status-marks ${sent ? 'sent' : ''}`}>
+                    ✔✔
+                  </span>
+                </span>
+              </div>
             </div>
           ))}
         </div>

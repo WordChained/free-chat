@@ -1,3 +1,5 @@
+// #3869a8
+
 .msgs-container {
   padding: 20px;
   display: flex;
@@ -8,31 +10,70 @@
   margin-bottom: 45px;
   flex: 1;
   max-height: 95%;
-  [name='single-msg'] {
-    position: relative;
-    display: flex;
-    align-items: center;
-    padding: 5px 20px 15px 20px;
-    border: white 1px solid;
-    background-color: white;
-    color: black;
-    width: max-content;
-    max-width: 50ch;
-    // height: max-content;
-    border-radius: 10px;
+  .single-msg {
     align-self: flex-end;
-    word-wrap: nowrap;
-    text-align: start;
-    .sent-at {
-      position: absolute;
-      bottom: 0;
-      left: 5%;
-      color: rgba(0, 0, 0, 0.472);
-      font-size: 0.8rem;
-    }
-    .sender {
-      background-color: #40d4af;
+    display: flex;
+    gap: 20px;
+    &.sender {
       align-self: flex-start;
+      .user-img {
+        display: flex;
+        order: 1;
+      }
+    }
+    .user-img {
+      // background-color: rgb(114, 73, 73);
+      box-shadow: 0 0 1px 1px white;
+      height: 50px;
+      width: 50px;
+      max-height: 50px;
+      max-width: 50px;
+      border-radius: 50%;
+      padding: 10px;
+      border: none;
+      object-fit: cover;
+      overflow: hidden;
+      order: 2;
+    }
+    [name='single-msg-txt'] {
+      font-size: 1.5rem;
+      position: relative;
+      display: flex;
+      align-items: center;
+      padding: 5px 20px 15px 20px;
+      border: rgb(58, 58, 58) 1px solid;
+      background-color: #282c34;
+      color: white;
+      width: max-content;
+      min-width: 100px;
+      max-width: 50ch;
+      // height: max-content;
+      border-radius: 10px;
+      align-self: flex-end;
+      word-wrap: nowrap;
+      text-align: start;
+      order: 1;
+      .sent-at {
+        position: absolute;
+        bottom: 0;
+        left: 15px;
+        color: rgba(202, 202, 202, 0.472);
+        font-size: 0.8rem;
+      }
+      &.sender {
+        order: 1;
+        background-color: #2bb996;
+        align-self: flex-start;
+        border: rgba(0, 0, 0, 0.472) 1px solid;
+        .sent-at {
+          color: rgba(5, 5, 5, 0.472);
+        }
+      }
+      .msg-status-marks {
+        &.sent {
+          color: rgb(72, 72, 236);
+        }
+      }
     }
   }
 }

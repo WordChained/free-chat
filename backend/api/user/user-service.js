@@ -97,7 +97,7 @@ async function update(user) {
 }
 
 async function add(user) {
-    const { userName, password, fullName, imgUrl, likedRooms, birthday } = user
+    const { userName, password, fullName, imgUrl, likedRooms, birthday, sex } = user
     try {
         const userToAdd = {
             userName,
@@ -105,7 +105,8 @@ async function add(user) {
             fullName,
             imgUrl,
             likedRooms,
-            birthday
+            birthday,
+            sex
         }
         const collection = await dbService.getCollection('user')
         await collection.insertOne(userToAdd)
