@@ -18,7 +18,6 @@ export const Rooms = () => {
 
   useEffect(() => {
     dispatch(query(filterBy));
-    console.log('filteredRooms:', filteredRooms);
     // eslint-disable-next-line
   }, [filterBy]);
 

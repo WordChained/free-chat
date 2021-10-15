@@ -1,10 +1,12 @@
 .room-container {
+  overflow: hidden;
   .chat-container {
     border-radius: 5px;
     overflow: hidden;
     position: relative;
     background-color: rgb(110, 107, 107);
     height: 70vh;
+    max-height: 70vh;
     // display: flex;
     // flex-direction: column;
 

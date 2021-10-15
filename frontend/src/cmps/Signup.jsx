@@ -87,6 +87,7 @@ export const Signup = ({ close, onLoginLink }) => {
             type="text"
             className="userName"
             placeholder="Choose a user name"
+            maxLength={12}
           />
           <input
             required

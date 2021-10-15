@@ -1,8 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 
-import Color, { Palette } from 'color-thief-react';
+import {
+  // Color,
+  Palette,
+} from 'color-thief-react';
 //buttons imgs:
 import cogwheel from '../assets/imgs/setting.png';
 import attachment from '../assets/imgs/attachment.png';
@@ -15,6 +18,7 @@ import guestImg from '../assets/imgs/guest.png';
 
 import { getMsgs, addMsg } from '../store/actions/chatActions';
 import { getLoggedinUser, getUsers } from '../store/actions/userActions';
+import { AlwaysScrollToBottom } from './AlwaysScrollToBottom';
 
 export const Chat = () => {
   const { register, handleSubmit, reset } = useForm();
@@ -36,7 +40,6 @@ export const Chat = () => {
       dispatch(getUsers());
     }
     setCurrUser(getLoggedinUser());
-    console.log('currUser', currUser);
     if (guestUser) {
       // setCurrUser(guestUser);
       setDefaultImg(guestImg);
@@ -54,6 +57,8 @@ export const Chat = () => {
 
     //eslint-disable-next-line
   }, []);
+
+  //a component to always scroll down to!
 
   const getSenderInfo = (type, msg) => {
     const sender = users.find((u) => {
@@ -156,6 +161,7 @@ export const Chat = () => {
               </div>
             </div>
           ))}
+          <AlwaysScrollToBottom />
         </div>
       )}
       <form onSubmit={handleSubmit(onSubmit)}>
