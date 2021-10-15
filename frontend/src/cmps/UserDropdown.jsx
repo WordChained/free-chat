@@ -1,22 +1,34 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 
 //imgs or icons:
 import setting from '../assets/imgs/setting.png';
 import logoutIcon from '../assets/imgs/logout.png';
-import defaultUser from '../assets/imgs/tattoo-male.png';
+import maleUser from '../assets/imgs/tattoo-male.png';
+import femaleUser from '../assets/imgs/tattoo-female.png';
+import guest from '../assets/imgs/guest.png';
+import { useEffect, useState, useRef } from 'react';
+import { useSelector } from 'react-redux';
 
-import { useState, useRef } from 'react';
 export const UserDropdown = ({ user, logout }) => {
   const [showDropdown, setShowDropdown] = useState(false);
+  const [defaultImg, setDefaultImg] = useState('');
+
+  const { loggedInUser, guestUser } = useSelector((state) => state.userModule);
+  useEffect(() => {
+    if (guestUser) {
+      setDefaultImg(guest);
+    } else if (loggedInUser) {
+      setDefaultImg(loggedInUser.sex === 'male' ? maleUser : femaleUser);
+    }
+  }, []);
   const toggleDropdown = () => {
     setShowDropdown(!showDropdown);
   };
   const closeDropdown = () => {
     setShowDropdown(false);
   };
-
   const ref = useRef();
+
   //this closes the dropdown when i click outside the div/not on the settings button
   document.body.addEventListener('click', (ev) => {
     const cogWheel = document.querySelector('.corgwheel');
@@ -34,7 +46,7 @@ export const UserDropdown = ({ user, logout }) => {
       <div>Hello {user.userName}!</div>
       <img
         className="header-user-img"
-        src={user.userImg ? user.userImg : defaultUser}
+        src={user.imgUrl ? user.userImg : defaultImg}
         alt="userImg"
       />
       <img
@@ -45,13 +57,23 @@ export const UserDropdown = ({ user, logout }) => {
       />
       {showDropdown && (
         <section ref={ref} tabIndex="-1" className="dropdown">
-          <Link
-            className="item"
-            onClick={closeDropdown}
-            to={`/myProfile/${user.userName}`}
-          >
-            My Profile
-          </Link>
+          {!loggedInUser ? (
+            <Link
+              onClick={(ev) => ev.preventDefault()}
+              className="item disabled"
+              to={`/myProfile/${user.userName}`}
+            >
+              My Profile
+            </Link>
+          ) : (
+            <Link
+              className="item"
+              onClick={closeDropdown}
+              to={`/myProfile/${user.userName}`}
+            >
+              My Profile
+            </Link>
+          )}
 
           <Link className="item" onClick={closeDropdown} to="/myTattoos">
             My List

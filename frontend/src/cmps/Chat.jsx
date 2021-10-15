@@ -29,7 +29,7 @@ export const Chat = () => {
 
   useEffect(() => {
     if (guestUser) {
-      setCurrUser(loggedInUser);
+      setCurrUser(guestUser);
       setDefaultImg(guest);
     } else if (loggedInUser) {
       setCurrUser(loggedInUser);
@@ -60,15 +60,11 @@ export const Chat = () => {
             <div
               key={msg.id}
               className={`single-msg ${
-                loggedInUser && loggedInUser._id === msg.uid ? 'sender' : ''
+                currUser && currUser._id === msg.uid ? 'sender' : ''
               }`}
             >
               <Color
-                src={
-                  loggedInUser && loggedInUser.imgUrl
-                    ? loggedInUser.imgUrl
-                    : defaultImg
-                }
+                src={currUser && currUser.imgUrl ? currUser.imgUrl : defaultImg}
                 crossOrigin="anonymous"
                 format="hex"
               >
@@ -79,8 +75,8 @@ export const Chat = () => {
                       style={{ backgroundColor: data }}
                       className="user-img"
                       src={
-                        loggedInUser && loggedInUser.imgUrl
-                          ? loggedInUser.imgUrl
+                        currUser && currUser.imgUrl
+                          ? currUser.imgUrl
                           : defaultImg
                       }
                       alt="userImg"
@@ -91,9 +87,7 @@ export const Chat = () => {
               <div
                 key={msg.id}
                 name="single-msg-txt"
-                className={
-                  loggedInUser && loggedInUser._id === msg.uid ? 'sender' : ''
-                }
+                className={currUser && currUser._id === msg.uid ? 'sender' : ''}
               >
                 {msg.text}
                 <span className="sent-at">

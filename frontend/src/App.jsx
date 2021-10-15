@@ -22,6 +22,7 @@ import { About } from './pages/About';
 import { Rooms } from './pages/Rooms';
 import { Room } from './pages/Room';
 import { LandingPage } from './pages/LandingPage';
+import { UserProfile } from './pages/UserProfile';
 
 function App() {
   const dispatch = useDispatch();
@@ -32,7 +33,6 @@ function App() {
   useEffect(() => {
     const user = getLoggedinUser();
     if (user) {
-      console.log(user);
       dispatch(persistLogin(user));
       dispatch(setReady(true));
     } else {
@@ -48,6 +48,16 @@ function App() {
       <Redirect to="/:landingPage" />
     );
   };
+
+  const RegisteredUserRoute = (props) => {
+    // return props.isAdmin ? <Route {...props} /> : <Redirect to="/" />
+    return loggedInUser ? (
+      <Route path={props.path} component={props.component} />
+    ) : (
+      <Redirect to="/:landingPage" />
+    );
+  };
+
   if (!ready)
     return (
       <div className="lds-ripple">
@@ -65,6 +75,10 @@ function App() {
             <PrivateRoute path="/rooms/:id" component={Room} />
             <PrivateRoute path="/rooms" component={Rooms} />
             <PrivateRoute path="/about" component={About} />
+            <RegisteredUserRoute
+              path="/myProfile/:id"
+              component={UserProfile}
+            />
             <Route path="/:landingPage" component={LandingPage} />
             <PrivateRoute path="/" component={MainPage} />
           </Switch>

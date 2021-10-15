@@ -60,8 +60,9 @@ export const login = (userCred, isGuest = false) => {
             const _id = makeId(7)
             const user = {
                 _id,
-                userName: `guest${_id}`,
-                fullName: `guest${_id}`,
+                userName: `guest`,
+                fullName: `guest ${_id}`,
+                createdAt: Date.now(),
                 imgUrl: '',
                 likedRooms: [],
                 birthday: Date.now(),
@@ -85,7 +86,7 @@ export const login = (userCred, isGuest = false) => {
 }
 
 export const signup = (userCred) => {
-    const newUserCred = { ...userCred, imgUrl: '', likedRooms: [] }
+    const newUserCred = { ...userCred, imgUrl: '', likedRooms: [], cretedAt: Date.now() }
     return async dispatch => {
         try {
             const user = await httpService.post('auth/signup', newUserCred)

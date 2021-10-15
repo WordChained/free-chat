@@ -1,4 +1,5 @@
 const INITIAL_STATE = {
+  users: null,
   loggedInUser: null,
   guestUser: null,
   //
@@ -60,6 +61,11 @@ export function userReducer(state = INITIAL_STATE, action) {
       return {
         ...state,
         isUser: action.isUser
+      }
+    case 'GET_USERS':
+      return {
+        ...state,
+        users: action.users
       }
     case 'ADD_TATTOO_TO_USER':
       return {
