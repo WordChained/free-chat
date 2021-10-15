@@ -20,6 +20,7 @@ export const UserDropdown = ({ user, logout }) => {
     } else if (loggedInUser) {
       setDefaultImg(loggedInUser.sex === 'male' ? maleUser : femaleUser);
     }
+    //eslint-disable-next-line
   }, []);
   const toggleDropdown = () => {
     setShowDropdown(!showDropdown);

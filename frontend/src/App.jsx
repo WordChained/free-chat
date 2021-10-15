@@ -12,10 +12,10 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import {
-  login,
   getLoggedinUser,
   persistLogin,
   setReady,
+  getUsers,
 } from './store/actions/userActions';
 
 import { About } from './pages/About';
@@ -31,6 +31,7 @@ function App() {
   );
 
   useEffect(() => {
+    dispatch(getUsers());
     const user = getLoggedinUser();
     if (user) {
       dispatch(persistLogin(user));
@@ -38,7 +39,7 @@ function App() {
     } else {
       dispatch(setReady(true));
     }
-    console.log('loggedInUser in app:', loggedInUser);
+    //eslint-disable-next-line
   }, []);
 
   const PrivateRoute = (props) => {

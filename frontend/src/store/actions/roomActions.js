@@ -20,7 +20,6 @@ export const setCurrRoom = (room) => {
 export const getById = (roomId) => {
     return async dispatch => {
         const room = await httpService.get(`room/${roomId}`)
-        console.log('room:', room);
         dispatch({ type: 'GET_ROOM', room })
     }
 }

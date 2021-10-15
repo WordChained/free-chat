@@ -24,7 +24,10 @@ import { makeId } from '../../services/utilService'
 // window.userService = userService
 
 export const getUsers = () => {
-    return httpService.get(`user`)
+    return async dispatch => {
+        const users = await httpService.get(`user`)
+        dispatch({ type: 'GET_USERS', users })
+    }
 }
 
 export const getById = (userId) => {
