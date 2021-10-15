@@ -38,11 +38,12 @@ function App() {
     } else {
       dispatch(setReady(true));
     }
+    console.log('loggedInUser in app:', loggedInUser);
   }, []);
 
   const PrivateRoute = (props) => {
     // return props.isAdmin ? <Route {...props} /> : <Redirect to="/" />
-    return loggedInUser || guestUser ? (
+    return getLoggedinUser() ? (
       <Route path={props.path} component={props.component} />
     ) : (
       <Redirect to="/:landingPage" />

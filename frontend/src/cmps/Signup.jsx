@@ -43,6 +43,7 @@ export const Signup = ({ close, onLoginLink }) => {
       // console.log('data', data);
       setPasswordMatch(true);
       setError('');
+      history.replace('/');
       dispatch(signup(data));
       // dispatch(login(data.email, data.password));
       if (isUser) {
@@ -66,7 +67,6 @@ export const Signup = ({ close, onLoginLink }) => {
   useEffect(() => {
     if (loggedInUser !== null) {
       close();
-      history.replace('/');
     }
     //eslint-disable-next-line
   }, [loggedInUser]);

@@ -23,6 +23,9 @@ export const Login = ({ close, onSignupLink }) => {
     }
     const userName = data.userName.trim();
     const password = data.password.trim();
+
+    history.replace('/');
+
     dispatch(login({ userName, password }));
     // close();
   };
@@ -30,7 +33,6 @@ export const Login = ({ close, onSignupLink }) => {
     if (loggedInUser !== null) {
       setError('');
       close();
-      history.replace('/');
     }
     //eslint-disable-next-line
   }, [loggedInUser]);

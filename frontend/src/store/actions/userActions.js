@@ -121,7 +121,7 @@ export const persistLogin = (user) => {
             dispatch({ type: 'LOGIN_GUEST', user })
         }
         else {
-
+            console.log('loggin in as user in persistent login');
             try {
                 const userId = await httpService.get('user', user._Id)
                 if (userId) {

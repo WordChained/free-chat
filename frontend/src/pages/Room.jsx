@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Link, useHistory, useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { setCurrRoom, getById } from '../store/actions/roomActions';
 import { Chat } from '../cmps/Chat';
 
@@ -34,7 +34,7 @@ export const Room = () => {
       </Link> */}
       <button onClick={exitRoom}>Back</button>
       <h3>{currRoom.name}</h3>
-      {loggedInUser || (guestUser && <Chat />)}
+      {(loggedInUser || guestUser) && <Chat />}
     </div>
   );
 };
