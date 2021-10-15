@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 // import { useState, useEffect } from 'react';
 
-import pin from '../assets/imgs/pin.png';
+// import pin from '../assets/imgs/pin.png';
 import { getLoggedinUser } from '../store/actions/userActions';
 export const UserProfile = () => {
   const [user, setUser] = useState('');

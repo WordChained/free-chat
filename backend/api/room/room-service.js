@@ -118,7 +118,18 @@ async function getMsgs(roomId) {
 async function addMsg(roomId, msg) {
     try {
         const collection = await dbService.getCollection('room')
-        await collection.updateOne({ '_id': ObjectId(roomId) }, { $push: { 'msgs': { 'text': msg.msg, id: ObjectId(), 'sentAt': Date.now(), uid: msg.uid } } })
+        await collection.updateOne(
+            { '_id': ObjectId(roomId) },
+            {
+                $push: {
+                    'msgs': {
+                        'text': msg.msg, id: ObjectId(),
+                        'sentAt': Date.now(),
+                        uid: msg.uid,
+                        name: msg.name
+                    }
+                }
+            })
         return await collection.findOne(ObjectId(roomId));
     } catch (err) {
         // logger.error(`cannot add message ${song.id}`, err)

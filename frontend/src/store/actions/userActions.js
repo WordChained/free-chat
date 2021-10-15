@@ -25,8 +25,12 @@ import { makeId } from '../../services/utilService'
 
 export const getUsers = () => {
     return async dispatch => {
-        const users = await httpService.get(`user`)
-        dispatch({ type: 'GET_USERS', users })
+        try {
+            const users = await httpService.get(`user`)
+            dispatch({ type: 'GET_USERS', users })
+        } catch (err) {
+            console.log('getUsers error:', err);
+        }
     }
 }
 
@@ -64,7 +68,7 @@ export const login = (userCred, isGuest = false) => {
             const user = {
                 _id,
                 userName: `guest`,
-                fullName: `guest ${_id}`,
+                fullName: `guest${_id}`,
                 createdAt: Date.now(),
                 imgUrl: '',
                 likedRooms: [],
@@ -73,12 +77,14 @@ export const login = (userCred, isGuest = false) => {
             }
             _saveLocalUser(user)
             dispatch({ type: 'LOGIN_GUEST', user })
+            dispatch({ type: 'GET_USERS' })
         }
         else {
             try {
                 const user = await httpService.post('auth/login', userCred)
                 if (user) _saveLocalUser(user)
                 dispatch({ type: 'LOGIN', user })
+                dispatch({ type: 'GET_USERS' })
 
             } catch (err) {
                 console.log('login error:', err);
@@ -122,6 +128,7 @@ export const persistLogin = (user) => {
     return async dispatch => {
         if (user.sex === 'guest') {
             dispatch({ type: 'LOGIN_GUEST', user })
+            dispatch({ type: 'GET_USERS' })
         }
         else {
             console.log('loggin in as user in persistent login');
@@ -129,6 +136,7 @@ export const persistLogin = (user) => {
                 const userId = await httpService.get('user', user._Id)
                 if (userId) {
                     dispatch({ type: 'LOGIN', user })
+                    dispatch({ type: 'GET_USERS' })
                 }
             } catch (err) {
                 console.log('persistLogin error:', err);

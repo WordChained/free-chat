@@ -25,7 +25,6 @@ export const Login = ({ close, onSignupLink }) => {
     const password = data.password.trim();
 
     history.replace('/');
-
     dispatch(login({ userName, password }));
     // close();
   };

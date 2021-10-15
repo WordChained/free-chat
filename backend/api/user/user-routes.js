@@ -4,7 +4,7 @@ const { getUser, getUsers, updateUser, } = require('./user-controller')
 const router = express.Router()
 
 // middleware that is specific to this router
-router.use(requireAuth)
+// router.use(requireAuth)
 
 router.get('/', getUsers)
 router.get('/:id', requireAuth, getUser)
