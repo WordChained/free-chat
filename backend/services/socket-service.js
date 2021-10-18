@@ -1,5 +1,5 @@
 const { updateRoom } = require('../api/room/room-controller');
-const asyncLocalStorage = require('./als-service');
+// const asyncLocalStorage = require('./als-service');
 const logger = require('./logger-service');
 
 let gIo = null
@@ -11,7 +11,8 @@ function connectSockets(http, session) {
         socket.on('disconnect', socket => {
             console.log('Someone disconnected')
         })
-        socket.on('chat topic', topic => {
+        socket.on('room topic', topic => {
+            logger.debug('roomTopic', topic);
             if (socket.myTopic === topic) return;
             if (socket.myTopic) {
                 socket.leave(socket.myTopic)
@@ -19,19 +20,21 @@ function connectSockets(http, session) {
             socket.join(topic)
             socket.myTopic = topic
         })
-        socket.on('chat newMsg', msg => {
+        // socket.on('room newMsg', msg => {
+        //     // emits to all sockets:
+        //     // gIo.emit('chat addMsg', msg)
+        //     // emits only to sockets in the same room
+        //     gIo.to(socket.myTopic).emit('chat addMsg', msg)
+        // })
+        socket.on('room newMsg', msg => {
+            logger.debug('backend room newMsg', msg);
             // emits to all sockets:
             // gIo.emit('chat addMsg', msg)
             // emits only to sockets in the same room
-            gIo.to(socket.myTopic).emit('chat addMsg', msg)
-        })
-        socket.on('chat newMsg', msg => {
-            // emits to all sockets:
-            // gIo.emit('chat addMsg', msg)
-            // emits only to sockets in the same room
-            gIo.to(socket.myTopic).emit('chat addMsg', msg)
+            gIo.to(socket.myTopic).emit('room addMsg', msg)
         })
         socket.on('room watch', roomId => {
+            logger.debug('room watch', roomId)
             if (socket.roomId === roomId) return;
             if (socket.roomId) {
                 socket.leave(socket.roomId);
@@ -77,7 +80,7 @@ function emitToUser({ type, data, userId }) {
 function broadcast({ type, data, room = null, roomId }) {
     const excludedSocket = _getRoomSocket(roomId)
     if (!excludedSocket) {
-        logger.debug('Shouldnt happen, socket not found')
+        logger.debug('Shouldn\'t happen, socket not found')
         _printSockets();
         return;
     }

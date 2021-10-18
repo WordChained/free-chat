@@ -26,11 +26,9 @@ const query = async (filterBy = '{}') => {
 }
 
 const getById = async (roomId) => {
-    console.log('roomId:', roomId);
     try {
         const collection = await dbService.getCollection('room')
         const room = await collection.findOne({ '_id': ObjectId(roomId) })
-        console.log('room:', room);
         return room
     } catch (err) {
         logger.error(`while finding room ${roomId}`, err)

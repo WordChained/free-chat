@@ -6,7 +6,6 @@ export const addMsg = (roomId, msg, uid, name) => {
     return async dispatch => {
         const room = await httpService.post(`room/chat/${roomId}`, { msg, uid, name })
         const newMsg = room.msgs[room.msgs.length - 1]
-        console.log('newMsg:', newMsg);
         dispatch({ type: 'ADD_MSG', newMsg })
     }
 }

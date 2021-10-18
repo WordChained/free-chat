@@ -76,61 +76,62 @@ const getEmptyRoom = () => {
         description: '',
         tags: [],
         createdAt: Date.now(),
-        // createdBy: {},
-        likedByUsers: _getRandNum(),
-        songs: []
+        // likedByUsers: getRandomIntInclusive(1000, 60000),
+        likedByUsers: [],
+        msgs: [],
+        limit: '',
+        owner: '',
+        type: '',
+        topic: ''
+
     }
     return room
 }
 
-const saveSong = async (song, roomId) => {
-    try {
-        const room = await getById(roomId);
-        const newSong = {
-            id: song.id.videoId,
-            title: song.snippet.title,
-            imgUrl: song.snippet.thumbnails.high.url.replace('https:', ''),
-            addedBy: '',
-            duration: song.duration
-        };
-        room.songs.push(newSong);
-        const updatedRoom = await save(room)
-        return updatedRoom
-    } catch (err) {
-        console.log('Error on room service =>', err)
-        throw err;
-    }
+// const saveSong = async (song, roomId) => {
+//     try {
+//         const room = await getById(roomId);
+//         const newSong = {
+//             id: song.id.videoId,
+//             title: song.snippet.title,
+//             imgUrl: song.snippet.thumbnails.high.url.replace('https:', ''),
+//             addedBy: '',
+//             duration: song.duration
+//         };
+//         room.songs.push(newSong);
+//         const updatedRoom = await save(room)
+//         return updatedRoom
+//     } catch (err) {
+//         console.log('Error on room service =>', err)
+//         throw err;
+//     }
 
-}
+// }
 
-const removeSong = async (songId, roomId) => {
-    try {
-        const room = await getById(roomId)
-        const idx = room.songs.findIndex(song => song.id === songId)
-        room.songs.splice(idx, 1)
-        const updatedRoom = await save(room)
-        return updatedRoom
-    } catch (err) {
-        console.log('Error on room service =>', err)
-        throw err;
-    }
-}
+// const removeSong = async (songId, roomId) => {
+//     try {
+//         const room = await getById(roomId)
+//         const idx = room.songs.findIndex(song => song.id === songId)
+//         room.songs.splice(idx, 1)
+//         const updatedRoom = await save(room)
+//         return updatedRoom
+//     } catch (err) {
+//         console.log('Error on room service =>', err)
+//         throw err;
+//     }
+// }
 
-const saveSongList = async (list, roomId) => {
-    try {
-        const room = await getById(roomId)
-        room.songs = [...list]
-        const updatedRoom = await save(room)
-        return updatedRoom;
-        // return updatedRoom.songs
-    } catch (err) {
-        console.log('Error on room service =>', err)
-    }
-}
-
-const _getRandNum = () => {
-    return getRandomIntInclusive(1000, 60000);
-}
+// const saveSongList = async (list, roomId) => {
+//     try {
+//         const room = await getById(roomId)
+//         room.songs = [...list]
+//         const updatedRoom = await save(room)
+//         return updatedRoom;
+//         // return updatedRoom.songs
+//     } catch (err) {
+//         console.log('Error on room service =>', err)
+//     }
+// }
 
 export const roomService = {
     query,
@@ -138,7 +139,7 @@ export const roomService = {
     remove,
     save,
     getEmptyRoom,
-    saveSong,
-    removeSong,
-    saveSongList
+    // saveSong,
+    // removeSong,
+    // saveSongList
 }

@@ -43,7 +43,6 @@ const userRoutes = require('./api/user/user-routes')
 // const reviewRoutes = require('./api/review/review.routes')
 const roomRoutes = require('./api/room/room-routes')
 const { connectSockets } = require('./services/socket-service')
-
 // routes
 const setupAsyncLocalStorage = require('./middlewares/setupAls.middleware')
 app.all('*', setupAsyncLocalStorage)
@@ -72,8 +71,6 @@ connectSockets(http, session)
 const logger = require('./services/logger-service')
 const port = process.env.PORT || 3030
 http.listen(port, () => {
-    // logger.info('Server is running on port: ' + port)
-    console.log('Server is running on port: ' + port)
+    logger.info('Server is running on port: ' + port)
+    // console.log('Server is running on port: ' + port)
 })
-
-console.log('I am Here!, am I?')

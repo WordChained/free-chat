@@ -43,7 +43,7 @@ export const AppHeader = () => {
 
   const onLogout = () => {
     dispatch(logout());
-    history.push('/');
+    history.push('/:landing-page');
   };
   return (
     <section className="app-header">
@@ -74,7 +74,7 @@ export const AppHeader = () => {
           className="Rooms-link"
           activeClassName="active-nav"
           exact
-          to="/Rooms"
+          to="/rooms"
         >
           Rooms
         </NavLink>

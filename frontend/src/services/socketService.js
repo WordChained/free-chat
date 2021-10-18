@@ -1,8 +1,8 @@
 import io from 'socket.io-client'
 // import { httpService } from './http-service'
 
-export const SOCKET_EMIT_USER_WATCH = 'user-watch';
-export const SOCKET_EVENT_USER_UPDATED = 'user-updated';
+// export const SOCKET_EMIT_USER_WATCH = 'user-watch';
+// export const SOCKET_EVENT_USER_UPDATED = 'user-updated';
 // export const SOCKET_EVENT_REVIEW_ADDED = 'review-added';
 // export const SOCKET_EVENT_REVIEW_ABOUT_YOU = 'review-about-you';
 
@@ -10,6 +10,7 @@ export const SOCKET_EVENT_USER_UPDATED = 'user-updated';
 const baseUrl = (process.env.NODE_ENV === 'production') ? '' : '//localhost:3030'
 
 export const socketService = createSocketService()
+window.socketService = socketService
 
 // export const socketService = createDummySocketService()
 
@@ -25,11 +26,12 @@ function createSocketService() {
     const socketService = {
         async setup() {
             // await httpService.get('setup-session')
-            // socket = io(baseUrl, { reconnection: false})
+            // socket = io(baseUrl, { reconnection: false })
             socket = io.connect(baseUrl)
             // socketIsReady = true;
         },
         on(eventName, cb) {
+            console.log('on', eventName);
             socket.on(eventName, cb)
         },
         off(eventName, cb = null) {
@@ -38,6 +40,7 @@ function createSocketService() {
             else socket.off(eventName, cb)
         },
         emit(eventName, data) {
+            console.log('emit', eventName);
             socket.emit(eventName, data)
         },
         // broadcast() {

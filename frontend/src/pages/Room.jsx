@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
-import { setCurrRoom, getById } from '../store/actions/roomActions';
+import { setCurrRoom, setCurrRoomById } from '../store/actions/roomActions';
+import { socketService } from '../services/socketService';
 import { Chat } from '../cmps/Chat';
 
 export const Room = () => {
@@ -12,7 +13,14 @@ export const Room = () => {
   const { id } = useParams();
 
   useEffect(() => {
-    dispatch(getById(id));
+    //5 renders for some reason...
+    dispatch(setCurrRoomById(id));
+    if (currRoom) {
+      const topicToWatch = currRoom.topic + currRoom._id;
+      socketService.on('set-room-socket', topicToWatch);
+      socketService.on('room watch', topicToWatch);
+      socketService.on('room topic', topicToWatch);
+    }
     //eslint-disable-next-line
   }, []);
 

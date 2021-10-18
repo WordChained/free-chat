@@ -19,6 +19,7 @@ import guestImg from '../assets/imgs/guest.png';
 import { getMsgs, addMsg } from '../store/actions/chatActions';
 import { getLoggedinUser, getUsers } from '../store/actions/userActions';
 import { AlwaysScrollToBottom } from './AlwaysScrollToBottom';
+import { socketService } from '../services/socketService';
 
 export const Chat = () => {
   const { register, handleSubmit, reset } = useForm();
@@ -51,10 +52,13 @@ export const Chat = () => {
     // setTimeout(() => {
     setSent(true);
     // }, 1500);
+    // const roomToWatch = currRoom.topic + currRoom._id;
+    // socketService.on('room watch', roomToWatch);
+    // socketService.on('chat addMsg', dispatch(getMsgs(currRoom._id)));
+    return () => {};
     // !!!!!!!!!!!
     //need to 'destroy' chat to clear msgs so they wont appear for a moment when i open a new room
     //!!!!!!!!!!!!!!!
-
     //eslint-disable-next-line
   }, []);
 
@@ -83,6 +87,12 @@ export const Chat = () => {
         currUser[nameToAttatch]
       )
     );
+    const newMsg = {
+      msg: data['msg-input'],
+      uid: currUser._id,
+      name: currUser[nameToAttatch],
+    };
+    socketService.on('room newMsg', newMsg);
     reset();
   };
 
