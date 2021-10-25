@@ -36,9 +36,14 @@ export const getUsers = () => {
 
 export const getById = (userId) => {
     return async dispatch => {
-        const user = await httpService.get('user', userId)
-        // gWatchedUser = user;
-        dispatch({ type: 'GET_USER', user })
+        try {
+
+            const user = await httpService.get('user', userId)
+            // gWatchedUser = user;
+            dispatch({ type: 'GET_USER', user })
+        } catch (err) {
+            console.log('getById error:', err);
+        }
     }
 }
 

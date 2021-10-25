@@ -6,7 +6,6 @@ import { socketService } from '../services/socketService';
 import { Chat } from '../cmps/Chat';
 
 import { io } from 'socket.io-client';
-const baseUrl = process.env.NODE_ENV === 'production' ? '' : '//localhost:3030';
 
 export const Room = memo(() => {
   const { currRoom } = useSelector((state) => state.roomModule);

@@ -21,11 +21,63 @@
     align-self: flex-end;
     display: flex;
     gap: 20px;
+    position: relative;
+    .msg-edit-options {
+      position: absolute;
+      display: flex;
+      right: 40%;
+      top: -32px;
+      // background-color: black;
+      width: max-content;
+      padding: 1px 5px 1px 7px;
+      height: 30px;
+      justify-content: center;
+      align-items: center;
+      gap: 4px;
+      border: 1px solid rgb(214, 214, 214);
+      background-color: rgba(255, 255, 255, 0.589);
+      border-radius: 3em;
+      img {
+        cursor: pointer;
+        &.starred {
+          filter: invert(75%) sepia(83%) saturate(619%) hue-rotate(354deg)
+            brightness(101%) contrast(111%);
+        }
+        &.liked {
+          filter: invert(18%) sepia(98%) saturate(7414%) hue-rotate(5deg)
+            brightness(109%) contrast(118%);
+        }
+      }
+      .user-edit-options {
+        display: flex;
+        align-items: center;
+        padding: 0 5px 0 0;
+        gap: 5px;
+
+        .user-option {
+          background-color: transparent;
+          border: none;
+          padding: 0;
+          &.delete:hover {
+            color: red;
+          }
+          &.edit:hover {
+            color: rgb(56, 105, 168);
+          }
+        }
+      }
+      // button {
+      //   display: flex;
+      // }
+    }
     &.sender {
       align-self: flex-start;
       .user-img {
         display: flex;
         order: 1;
+      }
+      .msg-edit-options {
+        right: 0;
       }
     }
     .user-img {
@@ -60,6 +112,9 @@
       word-wrap: nowrap;
       text-align: start;
       order: 1;
+      &:hover .edit-btn {
+        display: block;
+      }
       .sent-at {
         position: absolute;
         bottom: 0;
@@ -91,6 +146,15 @@
         &.sent {
           color: rgb(72, 72, 236);
         }
+      }
+      .edit-btn {
+        display: none;
+        position: absolute;
+        right: 2px;
+        bottom: 2px;
+        cursor: pointer;
+        filter: invert(100%) sepia(5%) saturate(22%) hue-rotate(176deg)
+          brightness(104%) contrast(20%);
       }
     }
   }

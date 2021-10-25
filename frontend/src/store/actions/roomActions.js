@@ -28,8 +28,13 @@ export const setCurrRoomById = (roomId) => {
 
 export const getById = (roomId) => {
     return async dispatch => {
-        const room = await httpService.get(`room/${roomId}`)
-        dispatch({ type: 'GET_ROOM', room })
+        try {
+
+            const room = await httpService.get(`room/${roomId}`)
+            dispatch({ type: 'GET_ROOM', room })
+        } catch (err) {
+            console.log('getById error:', err);
+        }
     }
 }
 
@@ -59,15 +64,25 @@ export const remove = async (roomId) => {
 export const save = (room) => {
     if (!room._id) {
         return async dispatch => {
-            const newRoom = await httpService.post(`room/`, room)
-            // socketService.emit('room updated', newRoom)
-            dispatch({ type: 'ADD_ROOM', newRoom })
+            try {
+
+                const newRoom = await httpService.post(`room/`, room)
+                // socketService.emit('room updated', newRoom)
+                dispatch({ type: 'ADD_ROOM', newRoom })
+            } catch (err) {
+                console.log('save (add) error:', err);
+            }
         }
     }
     else {
         return async dispatch => {
-            const updatedRoom = await httpService.put(`room/`, room)
-            dispatch({ type: 'UPDATE_ROOM', updatedRoom })
+            try {
+
+                const updatedRoom = await httpService.put(`room/`, room)
+                dispatch({ type: 'UPDATE_ROOM', updatedRoom })
+            } catch (err) {
+                console.log('save (update) error:', err);
+            }
         }
     }
     // try {

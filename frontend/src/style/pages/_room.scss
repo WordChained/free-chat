@@ -66,11 +66,17 @@
           border-bottom-left-radius: 3em;
           border-top-left-radius: 3em;
           box-shadow: rgb(117, 117, 117) -1px 0 0px 2px;
+          cursor: default;
+          &.allowed {
+            cursor: pointer;
+          }
           img {
+            cursor: default;
             height: 30px;
             filter: invert(34%) sepia(40%) saturate(10000%) hue-rotate(182deg)
               brightness(312%) contrast(20%);
-            &:hover {
+            &.allowed {
+              cursor: pointer;
               filter: invert(34%) sepia(40%) saturate(1455%) hue-rotate(182deg)
                 brightness(92%) contrast(75%);
             }

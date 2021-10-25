@@ -6,21 +6,25 @@ import {
   // Color,
   Palette,
 } from 'color-thief-react';
+
 //buttons imgs:
 import cogwheel from '../assets/imgs/setting.png';
 import attachment from '../assets/imgs/attachment.png';
 import smiley from '../assets/imgs/smiley.png';
 import send from '../assets/imgs/send.png';
+import edit from '../assets/imgs/edit.png';
 
+//user images
 import maleUser from '../assets/imgs/tattoo-male.png';
 import femaleUser from '../assets/imgs/tattoo-female.png';
 import guestImg from '../assets/imgs/guest.png';
 
 import { getMsgs, addMsg } from '../store/actions/chatActions';
 import { getLoggedinUser, getUsers } from '../store/actions/userActions';
-import { AlwaysScrollToBottom } from './AlwaysScrollToBottom';
 import { socketService } from '../services/socketService';
-// import { socketService } from '../services/socketService';
+
+import { AlwaysScrollToBottom } from './AlwaysScrollToBottom';
+import { MsgEditOptions } from './MsgEditOptions';
 
 export const Chat = memo(({ socket }) => {
   const { register, handleSubmit, reset } = useForm();
@@ -34,6 +38,13 @@ export const Chat = memo(({ socket }) => {
   const [sent, setSent] = useState(false);
   const [defaultImg, setDefaultImg] = useState('');
   const [currUser, setCurrUser] = useState(null);
+  const [isEmpty, setIsEmpty] = useState(true);
+  const [isLiked, setIsLiked] = useState(false);
+  const [isStarred, setIsStarred] = useState(false);
+  const [currMsgToEdit, setCurrMsgToEdit] = useState({
+    edit: false,
+    msgId: null,
+  });
 
   useEffect(() => {
     const topicToWatch = currRoom.topic + currRoom._id;
@@ -49,18 +60,24 @@ export const Chat = memo(({ socket }) => {
     }
 
     dispatch(getMsgs(currRoom._id));
-    // setTimeout(() => {
     setSent(true);
-    // }, 1500);
     socketService.on('room addMsg', (msg) => {
       console.log('socket:', socket);
-      dispatch(addMsg(currRoom._id, msg.text, msg.uid, msg.name));
-      //the sender/reciver gets the msg twice for some reason...
+      dispatch(
+        addMsg(
+          currRoom._id,
+          msg.text,
+          msg.uid,
+          msg.name,
+          msg.isEdit,
+          msg.star,
+          msg.likes
+        )
+      );
       setTimeout(() => {
         dispatch(getMsgs(currRoom._id));
       }, 100);
     });
-
     return () => {
       dispatch(getMsgs(null));
       socketService.off('room addMsg');
@@ -69,21 +86,49 @@ export const Chat = memo(({ socket }) => {
     //eslint-disable-next-line
   }, []);
 
-  // useEffect(() => {
-  //   socketService.on('room addMsg', (msg) => {
-  //     console.log('socket:', socket);
-  //     dispatch(addMsg(currRoom._id, msg.text, msg.uid, msg.name));
-  //   });
-  //   //eslint-disable-next-line
-  // }, [socket]);
+  useEffect(() => {
+    if (currUser && currRoom && currRoom.msgs) {
+      console.log('happened');
+      currRoom.msgs.map((msg) => {
+        isLikedByCurrUser(msg.id);
+        isStarredByCurrUser(msg.id);
+      });
+    }
+  }, [currUser]);
 
+  const checkIsEmpty = (ev) => {
+    if (ev.target.value === '') {
+      setIsEmpty(true);
+    } else {
+      setIsEmpty(false);
+    }
+  };
+
+  const isLikedByCurrUser = (msgId) => {
+    const msg = currRoom.msgs.find((msg) => msg.id === msgId);
+    if (msg && msg.likes.includes(currUser._id)) {
+      setIsLiked(true);
+    }
+  };
+  const isStarredByCurrUser = (msgId) => {
+    const msg = currRoom.msgs.find((msg) => msg.id === msgId);
+    if (msg && msg.star.includes(currUser._id)) {
+      setIsStarred(true);
+    }
+  };
   const getSenderInfo = (type, msg) => {
     const sender = users.find((u) => {
       return u._id === msg.uid;
     });
     if (sender) {
-      // setSenderImg(sender.imgUrl);
       return sender[type];
+    }
+  };
+  const changeEditState = (msgId, uid) => {
+    if (currMsgToEdit.edit === true && currMsgToEdit.msgId === msgId) {
+      setCurrMsgToEdit({ edit: false, msgId: null });
+    } else {
+      setCurrMsgToEdit({ edit: true, msgId });
     }
   };
 
@@ -93,19 +138,13 @@ export const Chat = memo(({ socket }) => {
     // console.log('currUser is the sender...', currUser);
     // console.log('msg-input:', data['msg-input']);
     const nameToAttatch = currUser.sex === 'guest' ? 'fullName' : 'userName';
-    // dispatch(
-    //   addMsg(
-    //     currRoom._id,
-    //     data['msg-input'],
-    //     currUser._id,
-    //     currUser[nameToAttatch]
-    //   )
-    // );
-
     const newMsg = {
       text: data['msg-input'],
       uid: currUser._id,
       name: currUser[nameToAttatch],
+      isEdit: false,
+      star: [],
+      likes: [],
     };
     socketService.emit('room newMsg', newMsg);
     reset();
@@ -163,10 +202,26 @@ export const Chat = memo(({ socket }) => {
                   );
                 }}
               </Palette>
+              {/* {isLikedByCurrUser(msg.id)}
+              {isStarredByCurrUser(msg.id)} */}
+              {currMsgToEdit.edit && currMsgToEdit.msgId === msg.id && (
+                <MsgEditOptions
+                  msg={msg}
+                  currUser={currUser}
+                  isLiked={isLiked}
+                  isStarred={isStarred}
+                />
+              )}
               <div
                 key={msg.id}
                 name="single-msg-txt"
-                className={currUser && currUser._id === msg.uid ? 'sender' : ''}
+                className={
+                  currUser && currUser._id === msg.uid
+                    ? 'sender'
+                    : currMsgToEdit.edit
+                    ? 'edit'
+                    : ''
+                }
               >
                 <span className="sender-name">
                   {getSenderInfo('userName', msg)
@@ -183,6 +238,12 @@ export const Chat = memo(({ socket }) => {
                     ✔✔
                   </span>
                 </span>
+                <img
+                  className="edit-btn"
+                  src={edit}
+                  alt="edit"
+                  onClick={() => changeEditState(msg.id, msg.uid)}
+                />
               </div>
             </div>
           ))}
@@ -197,9 +258,12 @@ export const Chat = memo(({ socket }) => {
             type="text"
             spellCheck="true"
             autoComplete="off"
+            // ref={elInput}
+            className={isEmpty ? '' : 'allowed'}
+            onKeyUp={checkIsEmpty}
           />
-          <button type="submit">
-            <img src={send} alt="send" />
+          <button type="submit" className={isEmpty ? '' : 'allowed'}>
+            <img className={isEmpty ? '' : 'allowed'} src={send} alt="send" />
           </button>
         </form>
         <div className="chat-btns">

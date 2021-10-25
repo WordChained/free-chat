@@ -125,7 +125,10 @@ async function addMsg(roomId, msg) {
                         'text': msg.msg, id: ObjectId(),
                         'sentAt': Date.now(),
                         uid: msg.uid,
-                        name: msg.name
+                        name: msg.name,
+                        isEdit: msg.isEdit,
+                        star: msg.star,
+                        likes: msg.likes
                     }
                 }
             })
