@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { memo, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -20,8 +20,9 @@ import { getMsgs, addMsg } from '../store/actions/chatActions';
 import { getLoggedinUser, getUsers } from '../store/actions/userActions';
 import { AlwaysScrollToBottom } from './AlwaysScrollToBottom';
 import { socketService } from '../services/socketService';
+// import { socketService } from '../services/socketService';
 
-export const Chat = () => {
+export const Chat = memo(({ socket }) => {
   const { register, handleSubmit, reset } = useForm();
   const dispatch = useDispatch();
   const { currChatMsgs } = useSelector((state) => state.chatModule);
@@ -32,37 +33,49 @@ export const Chat = () => {
 
   const [sent, setSent] = useState(false);
   const [defaultImg, setDefaultImg] = useState('');
-  // const [senderImg, setSenderImg] = useState('');
-
   const [currUser, setCurrUser] = useState(null);
 
   useEffect(() => {
+    const topicToWatch = currRoom.topic + currRoom._id;
+    socketService.emit('room topic', topicToWatch);
     if (!users) {
       dispatch(getUsers());
     }
     setCurrUser(getLoggedinUser());
     if (guestUser) {
-      // setCurrUser(guestUser);
       setDefaultImg(guestImg);
     } else if (loggedInUser) {
-      // setCurrUser(loggedInUser);
       setDefaultImg(loggedInUser.sex === 'male' ? maleUser : femaleUser);
     }
+
     dispatch(getMsgs(currRoom._id));
     // setTimeout(() => {
     setSent(true);
     // }, 1500);
-    // const roomToWatch = currRoom.topic + currRoom._id;
-    // socketService.on('room watch', roomToWatch);
-    // socketService.on('chat addMsg', dispatch(getMsgs(currRoom._id)));
-    return () => {};
-    // !!!!!!!!!!!
-    //need to 'destroy' chat to clear msgs so they wont appear for a moment when i open a new room
-    //!!!!!!!!!!!!!!!
+    socketService.on('room addMsg', (msg) => {
+      console.log('socket:', socket);
+      dispatch(addMsg(currRoom._id, msg.text, msg.uid, msg.name));
+      //the sender/reciver gets the msg twice for some reason...
+      setTimeout(() => {
+        dispatch(getMsgs(currRoom._id));
+      }, 100);
+    });
+
+    return () => {
+      dispatch(getMsgs(null));
+      socketService.off('room addMsg');
+    };
+
     //eslint-disable-next-line
   }, []);
 
-  //a component to always scroll down to!
+  // useEffect(() => {
+  //   socketService.on('room addMsg', (msg) => {
+  //     console.log('socket:', socket);
+  //     dispatch(addMsg(currRoom._id, msg.text, msg.uid, msg.name));
+  //   });
+  //   //eslint-disable-next-line
+  // }, [socket]);
 
   const getSenderInfo = (type, msg) => {
     const sender = users.find((u) => {
@@ -75,24 +88,26 @@ export const Chat = () => {
   };
 
   const onSubmit = (data) => {
+    console.log('on submit was called');
     if (!data['msg-input']) return;
     // console.log('currUser is the sender...', currUser);
     // console.log('msg-input:', data['msg-input']);
     const nameToAttatch = currUser.sex === 'guest' ? 'fullName' : 'userName';
-    dispatch(
-      addMsg(
-        currRoom._id,
-        data['msg-input'],
-        currUser._id,
-        currUser[nameToAttatch]
-      )
-    );
+    // dispatch(
+    //   addMsg(
+    //     currRoom._id,
+    //     data['msg-input'],
+    //     currUser._id,
+    //     currUser[nameToAttatch]
+    //   )
+    // );
+
     const newMsg = {
-      msg: data['msg-input'],
+      text: data['msg-input'],
       uid: currUser._id,
       name: currUser[nameToAttatch],
     };
-    socketService.on('room newMsg', newMsg);
+    socketService.emit('room newMsg', newMsg);
     reset();
   };
 
@@ -174,24 +189,26 @@ export const Chat = () => {
           <AlwaysScrollToBottom />
         </div>
       )}
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <input
-          {...register('msg-input')}
-          id="msg-input"
-          type="text"
-          spellCheck="true"
-          autoComplete="off"
-        />
-        <button type="submit">
-          <img src={send} alt="send" />
-        </button>
-      </form>
-      <div className="chat-btns">
-        <span> | </span>
-        <img src={cogwheel} alt="settings" />
-        <img src={attachment} alt="attachment" />
-        <img src={smiley} alt="smiley" />
+      <div className="typing-line">
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <textarea
+            {...register('msg-input')}
+            id="msg-input"
+            type="text"
+            spellCheck="true"
+            autoComplete="off"
+          />
+          <button type="submit">
+            <img src={send} alt="send" />
+          </button>
+        </form>
+        <div className="chat-btns">
+          <span> | </span>
+          <img src={cogwheel} alt="settings" />
+          <img src={attachment} alt="attachment" />
+          <img src={smiley} alt="smiley" />
+        </div>
       </div>
     </div>
   );
-};
+});

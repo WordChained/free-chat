@@ -8,7 +8,7 @@ const logger = require('../../services/logger-service')
 const query = async (filterBy = '{}') => {
     // console.log('FILTER BY', filterBy)
     const criteria = _buildCriteria(JSON.parse(filterBy))
-    console.log('criteria:', criteria);
+    // console.log('criteria:', criteria);
     try {
         const collection = await dbService.getCollection('room')
         const filteredRooms = await collection.find(criteria).toArray()
@@ -104,6 +104,7 @@ const update = async (room) => {
 
 
 async function getMsgs(roomId) {
+    if (!roomId) return []
     try {
         const room = await getById(roomId);
         const msgs = room.msgs || [];
@@ -137,7 +138,7 @@ async function addMsg(roomId, msg) {
 
 
 function _buildCriteria(filterBy) {
-    console.log('filterBy:', filterBy);
+    // console.log('filterBy:', filterBy);
     const criteria = {}
     //if theres a search term:
     if (filterBy.name) {

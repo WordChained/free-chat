@@ -1,5 +1,4 @@
-import React from 'react';
-import { useEffect } from 'react';
+import { useEffect, memo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { debounce } from 'debounce';
@@ -9,7 +8,7 @@ import { query, setFilterBy, setTags } from '../store/actions/roomActions';
 
 import { RoomList } from '../cmps/RoomList';
 
-export const Rooms = () => {
+export const Rooms = memo(() => {
   const { rooms, filterBy, filteredRooms } = useSelector(
     (state) => state.roomModule
   );
@@ -79,4 +78,4 @@ export const Rooms = () => {
       <RoomList rooms={filteredRooms ? filteredRooms : rooms} />
     </div>
   );
-};
+});

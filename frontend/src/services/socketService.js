@@ -10,11 +10,11 @@ import io from 'socket.io-client'
 const baseUrl = (process.env.NODE_ENV === 'production') ? '' : '//localhost:3030'
 
 export const socketService = createSocketService()
-window.socketService = socketService
+// window.socketService = socketService
 
 // export const socketService = createDummySocketService()
 
-// window.socketService = socketService
+window.socketService = socketService
 
 // var socketIsReady = false;
 
@@ -27,11 +27,11 @@ function createSocketService() {
         async setup() {
             // await httpService.get('setup-session')
             // socket = io(baseUrl, { reconnection: false })
-            socket = io.connect(baseUrl)
-            // socketIsReady = true;
+            // socket = io.connect(baseUrl, { transports: ['websockets'] }) //this disables polling
+            socket = io(baseUrl)
+
         },
         on(eventName, cb) {
-            console.log('on', eventName);
             socket.on(eventName, cb)
         },
         off(eventName, cb = null) {
@@ -40,8 +40,8 @@ function createSocketService() {
             else socket.off(eventName, cb)
         },
         emit(eventName, data) {
-            console.log('emit', eventName);
             socket.emit(eventName, data)
+            // socket.on(eventName, data)
         },
         // broadcast() {
         //     socket.broadcast(eventName, data)

@@ -1,12 +1,12 @@
 const logger = require('../../services/logger-service')
 const roomService = require('../room/room-service')
-const socketService = require('../../services/socket-service')
+const socketService = require('../../services/socket-service(old)')
 
 
 const getRooms = async (req, res) => {
     try {
         const { filterBy } = req.query;
-        console.log('filterBy', filterBy);
+        // console.log('filterBy', filterBy);
         const data = await roomService.query(filterBy)
         res.send(data)
     } catch (err) {
@@ -72,7 +72,8 @@ const updateRoom = async (req, res) => {
 
 const getMsgs = async (req, res) => {
     try {
-        const msgs = await roomService.getMsgs(req.params.id);
+        const unfilteredMsgs = await roomService.getMsgs(req.params.id);
+        const msgs = [...new Set(unfilteredMsgs)]
         res.send(msgs)
     } catch (err) {
         logger.error('Cannot get messages', err)

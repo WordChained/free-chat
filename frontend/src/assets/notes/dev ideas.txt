@@ -1,5 +1,3 @@
-need to change logic of user image. need to grab it from mongo and not the state, since now it gets the current users image, which doesnt make any sense!
-
 need to add 'removeMsg' in the back and in the front
 
 it keeps redirecting from places... find out why

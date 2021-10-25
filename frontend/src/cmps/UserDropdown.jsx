@@ -47,7 +47,7 @@ export const UserDropdown = ({ user, logout }) => {
       <div>Hello {user.userName}!</div>
       <img
         className="header-user-img"
-        src={user.imgUrl ? user.userImg : defaultImg}
+        src={user.imgUrl ? user.imgUrl : defaultImg}
         alt="userImg"
       />
       <img

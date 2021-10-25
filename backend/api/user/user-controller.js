@@ -1,5 +1,5 @@
 const userService = require('./user-service')
-const socketService = require('../../services/socket-service')
+const socketService = require('../../services/socket-service(old)')
 const logger = require('../../services/logger-service')
 
 
@@ -38,7 +38,7 @@ async function updateUser(req, res) {
     const user = req.body
     const savedUser = await userService.update(user)
     res.send(savedUser)
-    socketService.broadcast({ type: 'user-updated', to: savedUser._id })
+    // socketService.broadcast({ type: 'user-updated', to: savedUser._id })
   } catch (err) {
     logger.error('Failed to update user', err)
     res.status(500).send({ err: 'Failed to update user' })

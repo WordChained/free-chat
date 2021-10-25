@@ -6,7 +6,7 @@ const INITIAL_STATE = {
 
 export const chatReducer = (state = INITIAL_STATE, action) => {
     switch (action.type) {
-        case 'GET_MSGS':
+        case 'SET_MSGS':
             return {
                 ...state,
                 currChatMsgs: action.msgs

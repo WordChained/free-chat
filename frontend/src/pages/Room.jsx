@@ -1,26 +1,41 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState, memo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 import { setCurrRoom, setCurrRoomById } from '../store/actions/roomActions';
 import { socketService } from '../services/socketService';
 import { Chat } from '../cmps/Chat';
 
-export const Room = () => {
+import { io } from 'socket.io-client';
+const baseUrl = process.env.NODE_ENV === 'production' ? '' : '//localhost:3030';
+
+export const Room = memo(() => {
   const { currRoom } = useSelector((state) => state.roomModule);
   const { loggedInUser, guestUser } = useSelector((state) => state.userModule);
   const history = useHistory();
   const dispatch = useDispatch();
   const { id } = useParams();
 
+  const [socket, setSocket] = useState(null);
+
   useEffect(() => {
     //5 renders for some reason...
     dispatch(setCurrRoomById(id));
-    if (currRoom) {
-      const topicToWatch = currRoom.topic + currRoom._id;
-      socketService.on('set-room-socket', topicToWatch);
-      socketService.on('room watch', topicToWatch);
-      socketService.on('room topic', topicToWatch);
+    if (!socket) {
+      const socketIOClient = io('http://localhost:3000', {
+        withCredentials: true,
+      });
+      setSocket(socketIOClient);
     }
+    if (currRoom) {
+      // const socket = socketService();
+      const topicToWatch = currRoom.topic + currRoom._id;
+      socketService.emit('room topic', topicToWatch);
+      // socketService.on('set-room-socket', topicToWatch);
+      // socketService.on('room watch', topicToWatch);
+    }
+    return () => {
+      socketService.on('disconnect');
+    };
     //eslint-disable-next-line
   }, []);
 
@@ -42,7 +57,7 @@ export const Room = () => {
       </Link> */}
       <button onClick={exitRoom}>Back</button>
       <h3>{currRoom.name}</h3>
-      {(loggedInUser || guestUser) && <Chat />}
+      {(loggedInUser || guestUser) && socket && <Chat socket={socket} />}
     </div>
   );
-};
+});

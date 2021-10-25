@@ -5,7 +5,6 @@ const logger = require('../../services/logger-service')
 
 const login = async (userName, password) => {
     logger.debug(`auth-service - login with userName: ${userName}`)
-
     const user = await userService.getByUsername(userName)
     if (!user) return Promise.reject('Invalid userName or password')
     const match = await bcrypt.compare(password, user.password)
