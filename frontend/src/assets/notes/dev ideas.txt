@@ -10,6 +10,9 @@ UI/UX:
 CRUD:
 - add 'removeMsg' in the back and in the front
 - add edit removeMsg
+- add room
+- remove room
+- edit room
 
 Features:
 - add smilies,images,videos, player

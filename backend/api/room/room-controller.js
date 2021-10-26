@@ -94,6 +94,57 @@ const addMsg = async (req, res) => {
         res.status(500).send({ err: 'Failed to add a message to this room' })
     }
 }
+const starMsg = async (req, res) => {
+    try {
+        console.log('req.body:', req.body);
+        const { uid, msgId } = req.body;
+        const savedRoom = await roomService.starMsg(req.params.id, uid, msgId);
+        res.send(savedRoom);
+
+    } catch (err) {
+        logger.error('Failed to star a the msg with the id', msgId + '.', err)
+        console.log('Error on room controller =>', err)
+        res.status(500).send({ err: `Failed to star a the msg with the id ${msgId}` })
+    }
+}
+const unStarMsg = async (req, res) => {
+    try {
+        console.log('req.body:', req.body);
+        const { uid, msgId } = req.body;
+        const savedRoom = await roomService.unStarMsg(req.params.id, uid, msgId);
+        res.send(savedRoom);
+
+    } catch (err) {
+        logger.error('Failed to unstar a the msg with the id', msgId + '.', err)
+        console.log('Error on room controller =>', err)
+        res.status(500).send({ err: `Failed to unstar a the msg with the id ${msgId}` })
+    }
+}
+const likeMsg = async (req, res) => {
+    try {
+        const { uid, msgId } = req.body;
+        const savedRoom = await roomService.likeMsg(req.params.id, uid, msgId);
+        res.send(savedRoom);
+
+    } catch (err) {
+        logger.error('Failed to like a the msg with the id', msgId + '.', err)
+        console.log('Error on room controller =>', err)
+        res.status(500).send({ err: `Failed to like a the msg with the id ${msgId}` })
+    }
+}
+
+const unLikeMsg = async (req, res) => {
+    try {
+        const { uid, msgId } = req.body;
+        const savedRoom = await roomService.unLikeMsg(req.params.id, uid, msgId);
+        res.send(savedRoom);
+
+    } catch (err) {
+        logger.error('Failed to unlike a the msg with the id', msgId + '.', err)
+        console.log('Error on room controller =>', err)
+        res.status(500).send({ err: `Failed to unlike a the msg with the id ${msgId}` })
+    }
+}
 
 module.exports = {
     getRooms,
@@ -102,5 +153,9 @@ module.exports = {
     addRoom,
     updateRoom,
     getMsgs,
-    addMsg
+    addMsg,
+    starMsg,
+    unStarMsg,
+    likeMsg,
+    unLikeMsg
 }

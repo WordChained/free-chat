@@ -112,6 +112,13 @@
       word-wrap: nowrap;
       text-align: start;
       order: 1;
+      .like-count {
+        position: absolute;
+        bottom: 0;
+        span {
+          font-size: 1rem;
+        }
+      }
       &:hover .edit-btn {
         display: block;
       }
@@ -140,6 +147,16 @@
         }
         .sender-name {
           color: rgba(5, 5, 5, 0.472);
+        }
+        .like-count {
+          display: flex;
+          align-items: center;
+          position: absolute;
+          right: -35px;
+          gap: 3px;
+          span {
+            font-size: 1rem;
+          }
         }
       }
       .msg-status-marks {

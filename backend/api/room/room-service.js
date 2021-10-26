@@ -138,7 +138,91 @@ async function addMsg(roomId, msg) {
         console.log('Error on room service =>', err)
     }
 }
+async function starMsg(roomId, uid, msgId) {
+    try {
+        const collection = await dbService.getCollection('room')
+        await collection.updateMany(
+            { '_id': ObjectId(roomId) },
+            {
+                //adds to array only if it doesnt hold the value
+                $addToSet: {
+                    //t is just a name for the nameless array
+                    'msgs.$[t].star': uid
+                }
+            },
+            {
+                arrayFilters: [{ 't.id': ObjectId(msgId) }]
+            },
+            // { $eq: ObjectId(msgId)}
+        )
+        return await collection.findOne(ObjectId(roomId));
+    } catch (err) {
+        // logger.error(`cannot add message ${song.id}`, err)
+        console.log('Error on room service =>', err)
+    }
+}
+async function unStarMsg(roomId, uid, msgId) {
+    try {
+        const collection = await dbService.getCollection('room')
+        await collection.updateMany(
+            { '_id': ObjectId(roomId) },
+            {
+                $pull: {
+                    'msgs.$[t].star': uid
+                }
+            },
+            {
+                arrayFilters: [{ 't.id': ObjectId(msgId) }]
+            },
+        )
+        return await collection.findOne(ObjectId(roomId));
+    } catch (err) {
+        console.log('Error on room service =>', err)
+    }
 
+}
+async function likeMsg(roomId, uid, msgId) {
+    try {
+        const collection = await dbService.getCollection('room')
+        await collection.updateMany(
+            { '_id': ObjectId(roomId) },
+            {
+                //adds to array only if it doesnt hold the value
+                $addToSet: {
+                    //'t' is just a name for the key-less objects
+                    'msgs.$[t].likes': uid
+                }
+            },
+            {
+                arrayFilters: [{ 't.id': ObjectId(msgId) }]
+            },
+            // { $eq: ObjectId(msgId)}
+        )
+        return await collection.findOne(ObjectId(roomId));
+    } catch (err) {
+        // logger.error(`cannot add message ${song.id}`, err)
+        console.log('Error on room service =>', err)
+    }
+}
+async function unLikeMsg(roomId, uid, msgId) {
+    try {
+        const collection = await dbService.getCollection('room')
+        await collection.updateMany(
+            { '_id': ObjectId(roomId) },
+            {
+                $pull: {
+                    'msgs.$[t].likes': uid
+                }
+            },
+            {
+                arrayFilters: [{ 't.id': ObjectId(msgId) }]
+            },
+        )
+        return await collection.findOne(ObjectId(roomId));
+    } catch (err) {
+        console.log('Error on room service =>', err)
+    }
+}
 
 function _buildCriteria(filterBy) {
     // console.log('filterBy:', filterBy);
@@ -174,5 +258,9 @@ module.exports = {
     add,
     update,
     getMsgs,
-    addMsg
+    addMsg,
+    starMsg,
+    unStarMsg,
+    likeMsg,
+    unLikeMsg
 }
