@@ -12,6 +12,7 @@
   "author": "Me",
   "license": "ISC",
   "dependencies": {
+    "@babel/core": "^7.15.8",
     "bcrypt": "^5.0.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
@@ -23,6 +24,9 @@
     "socket.io": "^4.3.1"
   },
   "devDependencies": {
-    "nodemon": "^1.18.10"
+    "nodemon": "^1.18.10",
+    "webpack": "^4.28.3",
+    "webpack-cli": "^3.1.2",
+    "webpack-dev-server": "^3.1.14"
   }
 }
