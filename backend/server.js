@@ -2,7 +2,7 @@ const express = require("express");
 const http = require("http");
 const socketIo = require("socket.io");
 const cors = require('cors')
-// const path = require('path')
+const path = require('path')
 const expressSession = require('express-session')
 const session = expressSession({
     secret: 'coding is amazing',
@@ -39,13 +39,13 @@ app.use((err, req, res, next) => {
 });
 
 if (process.env.NODE_ENV === 'production') {
-    // app.use(express.static(path.resolve(__dirname, 'public')))
+    app.use(express.static(path.resolve(__dirname, 'public')))
     console.log(__dirname);
 } else {
     const corsOptions = {
         origin: ['http://127.0.0.1:8080', 'http://localhost:8080', 'http://localhost:3000',
             'http://localhost:8081', 'http://127.0.0.1:3030', 'http://127.0.0.1:3000', 'http://localhost:3030',
-            'http://192.168.1.17:8080/', 'http://192.168.1.22:8080', 'https://wordchained.github.io/free-chat'
+            'http://192.168.1.17:8080/', 'http://192.168.1.22:8080',
         ],
         credentials: true
     }
