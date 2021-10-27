@@ -20,9 +20,16 @@ export const Room = memo(() => {
     //5 renders for some reason...
     dispatch(setCurrRoomById(id));
     if (!socket) {
-      const socketIOClient = io('http://localhost:3000', {
-        withCredentials: true,
-      });
+      const socketIOClient = io(
+        [
+          'http://localhost:3030',
+          'http://localhost:3000',
+          'https://free-chat-1.herokuapp.com',
+        ],
+        {
+          withCredentials: true,
+        }
+      );
       setSocket(socketIOClient);
     }
     if (currRoom) {
