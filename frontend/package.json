@@ -2,7 +2,7 @@
   "name": "free-chat",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://free-chat-1.herokuapp.com/",
+  "homepage": "https://free-chat-1.herokuapp.com",
   "dependencies": {
     "@babel/core": "^7.15.0",
     "@testing-library/jest-dom": "^5.14.1",

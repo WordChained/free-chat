@@ -1,6 +1,5 @@
 const logger = require('../../services/logger-service')
 const roomService = require('../room/room-service')
-const socketService = require('../../services/socket-service(old)')
 
 
 const getRooms = async (req, res) => {
