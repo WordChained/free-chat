@@ -1,29 +1,56 @@
-.rooms-list {
-  display: flex;
-  flex-direction: column;
-  border: white 1px solid;
-  text-align: start;
-  background-color: #394152;
-  tr {
-    transition: all 0.1s ease-in-out;
-    &:hover {
-      background-color: lighten(#282c34, 7%);
-      box-shadow: white 0px 2px 2px;
+.rooms-page {
+  position: relative;
+  .rooms-list {
+    display: flex;
+    flex-direction: column;
+    border: white 1px solid;
+    text-align: start;
+    background-color: #394152;
+    margin-top: 20px;
+    tr {
+      transition: all 0.1s ease-in-out;
+      &:hover {
+        background-color: lighten(#282c34, 7%);
+        box-shadow: white 0px 2px 2px;
+      }
+    }
+    td {
+      padding: 5px;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+      max-width: 200px;
+      a {
+        text-decoration: none;
+        color: white;
+        transition: all 0.5s ease-in-out;
+        &:hover {
+          color: rgb(185, 185, 185);
+        }
+      }
     }
   }
-  td {
-    padding: 5px;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
-    max-width: 200px;
-    a {
-      text-decoration: none;
-      color: white;
-      transition: all 0.5s ease-in-out;
-      &:hover {
-        color: rgb(185, 185, 185);
-      }
+  .create-room-btn {
+    position: absolute;
+    right: 0;
+    top: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    border-radius: 3em;
+    padding: 5px 10px 5px 10px;
+    box-shadow: 2px 3px 2px rgb(109, 109, 109);
+    border: none;
+    background-color: rgba(240, 248, 255, 0.541);
+    &:hover {
+      box-shadow: 0 0 0 rgb(148, 148, 148);
+      right: -2px;
+      top: 42px;
+      background-color: rgb(207, 216, 223);
+    }
+    img {
+      height: 40px;
     }
   }
 }

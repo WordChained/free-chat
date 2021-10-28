@@ -1,19 +1,22 @@
-import { useEffect, memo } from 'react';
+import { useEffect, useState, memo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { debounce } from 'debounce';
 import Select from 'react-select';
+import create from '../assets/imgs/create.png';
 
 import { query, setFilterBy, setTags } from '../store/actions/roomActions';
 
 import { RoomList } from '../cmps/RoomList';
-
+import { CreateRoom } from '../cmps/CreateRoom';
 export const Rooms = memo(() => {
   const { rooms, filterBy, filteredRooms } = useSelector(
     (state) => state.roomModule
   );
   const { register, handleSubmit } = useForm();
   const dispatch = useDispatch();
+
+  const [showRoomCreation, setShowRoomCreation] = useState(false);
 
   useEffect(() => {
     dispatch(query(filterBy));
@@ -48,7 +51,7 @@ export const Rooms = memo(() => {
       </div>
     );
   return (
-    <div>
+    <div className="rooms-page">
       <div className="forms">
         <form
           className="free-search-form"
@@ -75,6 +78,14 @@ export const Rooms = memo(() => {
           />
         </form>
       </div>
+      <button
+        className="create-room-btn"
+        onClick={() => setShowRoomCreation(!showRoomCreation)}
+      >
+        <span>Create a Room</span>
+        <img src={create} alt="create" />
+      </button>
+      {showRoomCreation && <CreateRoom exit={setShowRoomCreation} />}
       <RoomList rooms={filteredRooms ? filteredRooms : rooms} />
     </div>
   );

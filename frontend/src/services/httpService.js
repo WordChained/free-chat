@@ -32,7 +32,8 @@ async function ajax(endpoint, method = 'GET', data = null) {
             url: `${BASE_URL}${endpoint}`,
             method,
             data,
-            params: (method === 'GET') ? data : null
+            params:
+                (method === 'GET') ? data : null
         })
         return res.data
     } catch (err) {
