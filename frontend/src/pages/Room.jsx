@@ -5,7 +5,7 @@ import { setCurrRoom, setCurrRoomById } from '../store/actions/roomActions';
 import { socketService } from '../services/socketService';
 import { Chat } from '../cmps/Chat';
 
-import { io } from 'socket.io-client';
+// import { io } from 'socket.io-client';
 
 export const Room = memo(() => {
   const { currRoom } = useSelector((state) => state.roomModule);
@@ -14,24 +14,24 @@ export const Room = memo(() => {
   const dispatch = useDispatch();
   const { id } = useParams();
 
-  const [socket, setSocket] = useState(null);
+  // const [socket, setSocket] = useState(null);
 
   useEffect(() => {
     //5 renders for some reason...
     dispatch(setCurrRoomById(id));
-    if (!socket) {
-      const socketIOClient = io(
-        [
-          'http://localhost:3030',
-          'http://localhost:3000',
-          'https://free-chat-1.herokuapp.com',
-        ],
-        {
-          withCredentials: true,
-        }
-      );
-      setSocket(socketIOClient);
-    }
+    // if (!socket) {
+    //   const socketIOClient = io(
+    //     [
+    //       'http://localhost:3030',
+    //       'http://localhost:3000',
+    //       'https://free-chat-1.herokuapp.com',
+    //     ],
+    //     {
+    //       withCredentials: true,
+    //     }
+    //   );
+    //   setSocket(socketIOClient);
+    // }
     if (currRoom) {
       // const socket = socketService();
       const topicToWatch = currRoom.topic + currRoom._id;
@@ -41,6 +41,7 @@ export const Room = memo(() => {
     }
     return () => {
       socketService.on('disconnect');
+      console.log('disconnect');
     };
     //eslint-disable-next-line
   }, []);
@@ -63,7 +64,7 @@ export const Room = memo(() => {
       </Link> */}
       <button onClick={exitRoom}>Back</button>
       <h3>{currRoom.name}</h3>
-      {(loggedInUser || guestUser) && socket && <Chat socket={socket} />}
+      {(loggedInUser || guestUser) && <Chat />}
     </div>
   );
 });

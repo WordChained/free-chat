@@ -7,14 +7,14 @@ import io from 'socket.io-client'
 // export const SOCKET_EVENT_REVIEW_ABOUT_YOU = 'review-about-you';
 
 
-const baseUrl = (process.env.NODE_ENV === 'production') ? '' : '//localhost:3030'
-
+const baseUrl = (process.env.NODE_ENV === 'production') ? 'https://free-chat-1.herokuapp.com' : '//localhost:3030'
+// "homepage": "https://free-chat-1.herokuapp.com",
 export const socketService = createSocketService()
 // window.socketService = socketService
 
 // export const socketService = createDummySocketService()
 
-window.socketService = socketService
+// window.socketService = socketService
 
 // var socketIsReady = false;
 
@@ -25,11 +25,7 @@ function createSocketService() {
     let socket = null;
     const socketService = {
         async setup() {
-            // await httpService.get('setup-session')
-            // socket = io(baseUrl, { reconnection: false })
-            // socket = io.connect(baseUrl, { transports: ['websockets'] }) //this disables polling
-            socket = io(baseUrl)
-
+            socket = io(baseUrl, { withCredentials: true, });
         },
         on(eventName, cb) {
             socket.on(eventName, cb)
@@ -40,6 +36,7 @@ function createSocketService() {
             else socket.off(eventName, cb)
         },
         emit(eventName, data) {
+            console.log('emit', socket);
             socket.emit(eventName, data)
             // socket.on(eventName, data)
         },

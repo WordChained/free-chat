@@ -27,7 +27,7 @@ import { socketService } from '../services/socketService';
 import { AlwaysScrollToBottom } from './AlwaysScrollToBottom';
 import { MsgEditOptions } from './MsgEditOptions';
 
-export const Chat = memo(({ socket }) => {
+export const Chat = memo(() => {
   const { register, handleSubmit, reset } = useForm();
   const dispatch = useDispatch();
   const { currChatMsgs } = useSelector((state) => state.chatModule);
@@ -61,7 +61,6 @@ export const Chat = memo(({ socket }) => {
     dispatch(getMsgs(currRoom._id));
     setSent(true);
     socketService.on('room addMsg', (msg) => {
-      console.log('socket:', socket);
       dispatch(
         addMsg(
           currRoom._id,
