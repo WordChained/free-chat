@@ -5,6 +5,9 @@ import { setCurrRoom, setCurrRoomById } from '../store/actions/roomActions';
 import { socketService } from '../services/socketService';
 import { Chat } from '../cmps/Chat';
 
+// images:
+import defaultRoomImg from '../assets/imgs/room.png';
+import back from '../assets/imgs/back.png';
 // import { io } from 'socket.io-client';
 
 export const Room = memo(() => {
@@ -19,29 +22,13 @@ export const Room = memo(() => {
   useEffect(() => {
     //5 renders for some reason...
     dispatch(setCurrRoomById(id));
-    // if (!socket) {
-    //   const socketIOClient = io(
-    //     [
-    //       'http://localhost:3030',
-    //       'http://localhost:3000',
-    //       'https://free-chat-1.herokuapp.com',
-    //     ],
-    //     {
-    //       withCredentials: true,
-    //     }
-    //   );
-    //   setSocket(socketIOClient);
-    // }
     if (currRoom) {
       // const socket = socketService();
       const topicToWatch = currRoom.topic + currRoom._id;
       socketService.emit('room topic', topicToWatch);
-      // socketService.on('set-room-socket', topicToWatch);
-      // socketService.on('room watch', topicToWatch);
     }
     return () => {
       socketService.on('disconnect');
-      console.log('disconnect');
     };
     //eslint-disable-next-line
   }, []);
@@ -62,8 +49,16 @@ export const Room = memo(() => {
       {/* <Link to={`/rooms`} replace>
         All rooms
       </Link> */}
-      <button onClick={exitRoom}>Back</button>
-      <h3>{currRoom.name}</h3>
+      <img
+        className="room-img"
+        src={currRoom.imgUrl ? currRoom.imgUrl : defaultRoomImg}
+        alt="room"
+      />
+      <button onClick={exitRoom} className="back-btn">
+        <img src={back} alt="back-btn" />
+      </button>
+
+      <h3 className="room-title">{currRoom.name}</h3>
       {(loggedInUser || guestUser) && <Chat />}
     </div>
   );

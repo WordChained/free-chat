@@ -1,0 +1,20 @@
+.private-room {
+  .header {
+    h2 {
+      position: absolute;
+      left: 10%;
+      top: -20px;
+    }
+    .topic-list {
+      position: absolute;
+      top: 30px;
+      left: 25%;
+      //   span {
+      //     color: white;
+      //     width: 30px;
+      //     height: 30px;
+      //     background-color: yellowgreen;
+      //   }
+    }
+  }
+}

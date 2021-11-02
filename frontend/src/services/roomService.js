@@ -1,5 +1,6 @@
-import { httpService } from './httpService.js'
-import { getRandomIntInclusive } from './utilService.js';
+import { getLoggedinUser } from '../store/actions/userActions.js';
+// import { httpService } from './httpService.js'
+// import { getRandomIntInclusive } from './utilService.js';
 
 // const STATION_URL = 'http://127.0.0.1:3030/api/room/'
 
@@ -79,12 +80,23 @@ export const getEmptyRoom = () => {
         likedByUsers: [],
         msgs: [],
         limit: '',
-        owner: '',
+        owner: getLoggedinUser(),
         type: '',
         topic: ''
 
     }
     return room
+}
+export const getEmptyPrivateRoom = () => {
+    const privateRoom = {
+        // _id: '',
+        topics: [],
+        createdAt: Date.now(),
+        msgs: [],
+        limit: '2',
+        type: 'private'
+    }
+    return privateRoom
 }
 
 // const saveSong = async (song, roomId) => {

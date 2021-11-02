@@ -46,11 +46,6 @@ export function userReducer(state = INITIAL_STATE, action) {
         loggedInUser: null,
         guestUser: null
       }
-    // case 'SIGNUP':
-    //   return {
-    //     ...state,
-    //     loggedInUser: action.user
-    //   }
     case 'LOGIN_ERROR':
     case 'SIGNUP_ERROR':
       return {
@@ -67,22 +62,6 @@ export function userReducer(state = INITIAL_STATE, action) {
         ...state,
         users: action.users
       }
-    case 'ADD_TATTOO_TO_USER':
-      return {
-        ...state,
-        loggedInUser: {
-          ...state.loggedInUser,
-          tattoos: [...state.loggedInUser.tattoos, action.tatId]
-        }
-      }
-    case 'REMOVE_TATTOO_FROM_USER':
-      return {
-        ...state,
-        loggedInUser: {
-          ...state.loggedInUser,
-          tattoos: state.loggedInUser.tattoos.map(tat => tat.id !== action.tatId ? action.tatId : tat)
-        }
-      }
     case 'SET_USER_IMAGE':
       return {
         ...state,
@@ -91,16 +70,20 @@ export function userReducer(state = INITIAL_STATE, action) {
           userImg: action.img
         }
       }
-    case 'READY':
-      // console.log('im ready to load!');
-      return {
-        ...state,
-        ready: action.readyState
-      }
     case 'SET_USER_BIO':
       return {
         ...state,
         bio: action.bio
+      }
+    case 'UPDATE_USER':
+      return {
+        ...state,
+        loggedInUser: action.user
+      }
+    case 'GET_USER':
+      return {
+        ...state,
+        loggedInUser: action.user
       }
 
     default:

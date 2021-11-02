@@ -34,15 +34,16 @@ export const getUsers = () => {
     }
 }
 
-export const getById = (userId) => {
+export const getUserById = (userId) => {
     return async dispatch => {
         try {
-
-            const user = await httpService.get('user', userId)
+            const user = await httpService.get(`user/${userId}`)
+            console.log('user in getUserById:', user);
             // gWatchedUser = user;
             dispatch({ type: 'GET_USER', user })
+            _saveLocalUser(user)
         } catch (err) {
-            console.log('getById error:', err);
+            console.log('getUserById error:', err);
         }
     }
 }
@@ -54,14 +55,14 @@ export const remove = (userId) => {
 export const update = (user) => {
     return async dispatch => {
         try {
-            console.log('user to update:', user);
-            user = await httpService.put(`user/${user._id}`, user)
-            console.log(user);
+            // console.log('user to update:', user);
+            const updatedUser = await httpService.put(`user/${user._id}`, user)
+            // console.log('updatedUser:', updatedUser);
             // Handle case in which admin updates other user's details
-            if (getLoggedinUser()._id === user._id) _saveLocalUser(user)
-            dispatch({ type: 'UPDATE_USER', user })
+            if (getLoggedinUser()._id === updatedUser._id) _saveLocalUser(updatedUser)
+            dispatch({ type: 'UPDATE_USER', user: updatedUser })
         } catch (err) {
-            console.log('eeror in update:', err);
+            console.log('error in update:', err);
         }
     }
 }

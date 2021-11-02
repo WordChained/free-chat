@@ -7,12 +7,18 @@
     text-align: start;
     background-color: #394152;
     margin-top: 20px;
+    overflow-x: hidden;
+    overflow-y: auto;
+
     tr {
       transition: all 0.1s ease-in-out;
       &:hover {
         background-color: lighten(#282c34, 7%);
         box-shadow: white 0px 2px 2px;
       }
+    }
+    .room-name {
+      cursor: pointer;
     }
     td {
       padding: 5px;
@@ -26,6 +32,29 @@
         transition: all 0.5s ease-in-out;
         &:hover {
           color: rgb(185, 185, 185);
+        }
+      }
+      img {
+        max-height: 30px;
+      }
+    }
+    .actions {
+      display: flex;
+      justify-content: space-around;
+      padding: 10px;
+      img {
+        &.liked {
+          filter: invert(66%) sepia(26%) saturate(1058%) hue-rotate(115deg)
+            brightness(88%) contrast(88%);
+        }
+        cursor: pointer;
+        &:hover:not(.remove) {
+          filter: invert(100%) sepia(100%) saturate(0%) hue-rotate(288deg)
+            brightness(102%) contrast(102%);
+        }
+        &:hover.remove {
+          filter: invert(16%) sepia(82%) saturate(6982%) hue-rotate(357deg)
+            brightness(91%) contrast(123%);
         }
       }
     }

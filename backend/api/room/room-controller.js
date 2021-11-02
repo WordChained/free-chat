@@ -1,5 +1,6 @@
 const logger = require('../../services/logger-service')
 const roomService = require('../room/room-service')
+// const socketService = require('../../services/socket-service')
 
 
 const getRooms = async (req, res) => {
@@ -41,7 +42,7 @@ const deleteRoom = async (req, res) => {
 const addRoom = async (req, res) => {
     try {
         const room = req.body
-        savedRoom = await roomService.add(room)
+        const savedRoom = await roomService.add(room)
         // socketService.broadcast({ type: 'room-added', data: savedRoom })
         res.send(savedRoom)
 
@@ -59,7 +60,6 @@ const updateRoom = async (req, res) => {
     try {
         const room = req.body
         const savedRoom = await roomService.update(room)
-        // socketService.emitTo({ type: 'room updated1', data: savedRoom, label: room._id });
         res.send(savedRoom)
     } catch (err) {
         logger.error('Failed to update room', err)

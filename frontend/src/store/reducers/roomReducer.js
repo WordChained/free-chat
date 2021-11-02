@@ -2,6 +2,7 @@ const INITIAL_STATE = {
     rooms: null,
     filteredRooms: null,
     currRoom: null,
+    currPrivateRoom: null,
     filterBy: { topic: '', description: '', tags: [], name: '' },
 
 }
@@ -24,6 +25,11 @@ export const roomReducer = (state = INITIAL_STATE, action) => {
                 ...state,
                 currRoom: action.room
             }
+        case 'SET_CURR_PRIVATE_ROOM':
+            return {
+                ...state,
+                currPrivateRoom: action.room
+            }
         case 'SET_FILTER':
             return {
                 ...state,
@@ -41,6 +47,21 @@ export const roomReducer = (state = INITIAL_STATE, action) => {
                     ...state.filterBy,
                     tags: action.tags
                 }
+            }
+        case 'ADD_ROOM':
+            return {
+                ...state,
+                rooms: [...state.rooms, action.newRoom]
+            }
+        case 'UPDATE_ROOM':
+            return {
+                ...state,
+                rooms: state.rooms.map(room => room._id === action.newRoom._id ? action.newRoom : room)
+            }
+        case 'REMOVE_ROOM':
+            return {
+                ...state,
+                rooms: state.rooms.filter(room => room._id !== action.roomId)
             }
         default:
             return state

@@ -9,15 +9,16 @@ import { query, setFilterBy, setTags } from '../store/actions/roomActions';
 
 import { RoomList } from '../cmps/RoomList';
 import { CreateRoom } from '../cmps/CreateRoom';
+import { getLoggedinUser } from '../store/actions/userActions';
 export const Rooms = memo(() => {
   const { rooms, filterBy, filteredRooms } = useSelector(
     (state) => state.roomModule
   );
+  const { loggedInUser, guestUser } = useSelector((state) => state.userModule);
   const { register, handleSubmit } = useForm();
   const dispatch = useDispatch();
 
   const [showRoomCreation, setShowRoomCreation] = useState(false);
-
   useEffect(() => {
     dispatch(query(filterBy));
     // eslint-disable-next-line
@@ -29,7 +30,6 @@ export const Rooms = memo(() => {
     // if (data['tags'].length) dispatch(setTags(data['tags']));
   };
   const onTagsSubmit = (tags) => {
-    console.log('tags:', tags);
     dispatch(setTags(tags));
   };
 
@@ -85,7 +85,9 @@ export const Rooms = memo(() => {
         <span>Create a Room</span>
         <img src={create} alt="create" />
       </button>
-      {showRoomCreation && <CreateRoom exit={setShowRoomCreation} />}
+      {showRoomCreation && (
+        <CreateRoom exit={setShowRoomCreation} user={getLoggedinUser()} />
+      )}
       <RoomList rooms={filteredRooms ? filteredRooms : rooms} />
     </div>
   );

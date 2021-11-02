@@ -5,12 +5,10 @@ import {
   Route,
   Switch,
 } from 'react-router-dom';
-import { MainPage } from './pages/MainPage';
-import { AppFooter } from './cmps/AppFooter';
-import { AppHeader } from './cmps/AppHeader';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
+//user actions
 import {
   getLoggedinUser,
   persistLogin,
@@ -18,12 +16,18 @@ import {
   getUsers,
 } from './store/actions/userActions';
 
+//pages
+import { MainPage } from './pages/MainPage';
 import { About } from './pages/About';
 import { Rooms } from './pages/Rooms';
 import { Room } from './pages/Room';
 import { LandingPage } from './pages/LandingPage';
 import { UserProfile } from './pages/UserProfile';
+import { PrivateRoom } from './pages/PrivateRoom';
 
+//cmps
+import { AppFooter } from './cmps/AppFooter';
+import { AppHeader } from './cmps/AppHeader';
 function App() {
   const dispatch = useDispatch();
   const { loggedInUser, ready, guestUser } = useSelector(
@@ -86,6 +90,7 @@ function App() {
             <PrivateRoute path="/rooms/:id" component={Room} />
             <PrivateRoute path="/rooms" component={Rooms} />
             <PrivateRoute path="/about" component={About} />
+            <PrivateRoute path="/free-chat" component={PrivateRoom} />
             <RegisteredUserRoute
               path="/myProfile/:id"
               component={UserProfile}

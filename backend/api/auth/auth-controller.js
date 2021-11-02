@@ -2,10 +2,8 @@ const authService = require('./auth-service')
 const logger = require('../../services/logger-service')
 
 const login = async (req, res) => {
-    //with a get request. just as a test for heroku!:
-    // const { userName, password } = req.query
-    //with a normal post request:
     const { userName, password } = req.body
+    // const { userName, password } = req.query
     try {
         const user = await authService.login(userName, password)
         req.session.user = user

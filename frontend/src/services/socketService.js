@@ -7,8 +7,9 @@ import io from 'socket.io-client'
 // export const SOCKET_EVENT_REVIEW_ABOUT_YOU = 'review-about-you';
 
 
-const baseUrl = (process.env.NODE_ENV === 'production') ? 'https://free-chat-1.herokuapp.com' : '//localhost:3030'
+const baseUrl = (process.env.NODE_ENV === 'production') ? '//free-chat-frontend.herokuapp.com' : '//localhost:3000'
 // "homepage": "https://free-chat-1.herokuapp.com",
+// "homepage": "https://free-chat-frontend.herokuapp.com",
 export const socketService = createSocketService()
 // window.socketService = socketService
 
@@ -36,7 +37,7 @@ function createSocketService() {
             else socket.off(eventName, cb)
         },
         emit(eventName, data) {
-            console.log('emit', socket);
+            // console.log('emit', socket);
             socket.emit(eventName, data)
             // socket.on(eventName, data)
         },

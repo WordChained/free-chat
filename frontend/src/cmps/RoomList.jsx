@@ -1,15 +1,16 @@
-import React from 'react';
-import { useHistory } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { setCurrRoom } from '../store/actions/roomActions';
+import React, { useState } from 'react';
 import { RoomPreview } from './RoomPreview';
+import { getLoggedinUser } from '../store/actions/userActions';
+import { CreateRoom } from './CreateRoom';
 export const RoomList = ({ rooms }) => {
-  const dispatch = useDispatch();
-  const history = useHistory();
-  const routeToRoom = (room) => {
-    dispatch(setCurrRoom(room));
-    history.push(`/rooms/${room._id}`);
+  const [showRoomEdit, setShowRoomEdit] = useState(false);
+  const [roomToEdit, setRoomToEdit] = useState(null);
+
+  const getRoomId = (roomId) => {
+    const room = rooms.find((room) => room._id === roomId);
+    setRoomToEdit(room);
   };
+
   return (
     <div className="rooms-list">
       <table border="1">
@@ -21,18 +22,31 @@ export const RoomList = ({ rooms }) => {
             <th>Limit</th>
             <th>Restrictions</th>
             <th>last Message</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
           {rooms.map((room) => {
             return (
-              <tr key={room._id} onClick={() => routeToRoom(room)}>
-                <RoomPreview room={room} />
+              <tr key={room._id}>
+                <RoomPreview
+                  room={room}
+                  user={getLoggedinUser()}
+                  exit={setShowRoomEdit}
+                  getRoomId={getRoomId}
+                />
               </tr>
             );
           })}
         </tbody>
       </table>
+      {showRoomEdit && (
+        <CreateRoom
+          exit={setShowRoomEdit}
+          user={getLoggedinUser()}
+          room={roomToEdit}
+        />
+      )}
     </div>
   );
 };

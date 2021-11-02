@@ -15,7 +15,7 @@
   width: 30vw;
   border-radius: 10px;
   animation: appear-from-left 0.3s ease-in 1;
-  overflow: hidden;
+  // overflow: hidden;
   &.closing {
     animation: disappear-to-right 0.3s ease-in 1;
     opacity: 0;
@@ -30,6 +30,29 @@
     align-items: center;
   }
   form {
+    input,
+    select {
+      border: hsl(0, 0%, 80%) solid 1px;
+      padding: 10px;
+      font-size: 1rem;
+      border-radius: 4px;
+      // width: 30vw;
+      height: 38px;
+    }
+    textarea {
+      font-family: inherit;
+      font-size: 1rem;
+      resize: unset;
+      padding: 5px;
+      outline: none;
+      height: 100px;
+    }
+    button {
+      padding: 5px 20px 5px 20px;
+      border-radius: 3em;
+      outline: none;
+      border: none;
+    }
     font-size: 1rem;
     display: flex;
     flex-direction: column;
@@ -41,19 +64,30 @@
     border-radius: 10px;
     border: white 1px solid;
     padding: 10px;
-    .topic-list {
+    .room-image-preview {
+      height: 60px;
+    }
+    .tags-list {
       width: 100%;
-      label {
-        font-size: 1.1rem;
-        font-weight: 500;
-        margin-right: 10px;
-      }
-      select {
-        min-width: 60%;
+      .select-tags,
+      .select-restrictions {
+        color: black;
+        //the React-select dropdown
+        .css-g1d714-ValueContainer {
+          overflow: auto;
+          max-height: 40px;
+        }
+        & .css-26l3qy-menu {
+          overflow: auto;
+          max-height: 20vh;
+        }
       }
     }
     button {
       align-self: center;
+    }
+    .room-image-input {
+      width: 240px;
     }
   }
 }
@@ -76,13 +110,16 @@
 }
 @keyframes disappear-to-right {
   0% {
+    overflow: hidden;
     left: 50%;
     transform: translate(-50%, -50%);
   }
   30% {
+    overflow: hidden;
     height: 20vh;
   }
   100% {
+    overflow: hidden;
     height: 0;
     left: 100vw;
   }
